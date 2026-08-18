@@ -5,19 +5,23 @@
 
 package cput.ac.za.ecommerce.factory;
 
-import cput.ac.za.ecommerce.domain.DimensionSpecs;
-import cput.ac.za.ecommerce.domain.HardwareComponent;
-import cput.ac.za.ecommerce.domain.PreBuiltSystem;
-import cput.ac.za.ecommerce.domain.ProductCatalog;
+import cput.ac.za.ecommerce.domain.*;
 
 public class ProductCatalogFactory {
 
-    public static ProductCatalog createProduct(String type,
-                                               String productId,
-                                               String brandName,
-                                               String modelName,
-                                               double standardRetailPrice,
-                                               DimensionSpecs physicalDimensions) {
+    public static ProductCatalog createProduct(
+            String type,
+            String productId,
+            Brand brand,
+            String modelName,
+            double standardRetailPrice,
+            String description,
+            String imageUrl,
+            int stockQuantity,
+            String color,
+            String storage,
+            ProductCategory productCategory,
+            DimensionSpecs physicalDimensions) {
 
         if (type.equals("hardware")) {
             return (HardwareComponent) new HardwareComponent.Builder()
@@ -25,9 +29,15 @@ public class ProductCatalogFactory {
                     .setPowerRequirementWatts(0)
                     .setComponentFormFactor("Standard")
                     .setProductId(productId)
-                    .setBrandName(brandName)
+                    .setBrand(brand)
                     .setModelName(modelName)
                     .setStandardRetailPrice(standardRetailPrice)
+                    .setDescription(description)
+                    .setImageUrl(imageUrl)
+                    .setStockQuantity(stockQuantity)
+                    .setColor(color)
+                    .setStorage(storage)
+                    .setProductCategory(productCategory)
                     .setPhysicalDimensions(physicalDimensions)
                     .build();
         } else if (type.equals("system")) {
@@ -36,9 +46,15 @@ public class ProductCatalogFactory {
                     .setWarrantyPeriodMonths(12)
                     .setIsLiquidCooled(false)
                     .setProductId(productId)
-                    .setBrandName(brandName)
+                    .setBrand(brand)
                     .setModelName(modelName)
                     .setStandardRetailPrice(standardRetailPrice)
+                    .setDescription(description)
+                    .setImageUrl(imageUrl)
+                    .setStockQuantity(stockQuantity)
+                    .setColor(color)
+                    .setStorage(storage)
+                    .setProductCategory(productCategory)
                     .setPhysicalDimensions(physicalDimensions)
                     .build();
         }

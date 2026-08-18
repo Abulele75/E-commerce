@@ -1,11 +1,15 @@
+package cput.ac.za.ecommerce.factory;
+
 /*
  * OrderFactory.java
  * Author: Sinethemba Nyimbinya (220085870)
  * Date: 2026
  */
-package cput.ac.za.ecommerce.factory;
 
-import cput.ac.za.ecommerce.domain.*;
+import cput.ac.za.ecommerce.domain.FinancialBreakdown;
+import cput.ac.za.ecommerce.domain.Order;
+import cput.ac.za.ecommerce.domain.OrderItem;
+
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
@@ -17,15 +21,19 @@ public class OrderFactory {
                                     List<OrderItem> orderLineItems,
                                     FinancialBreakdown dynamicTotals) {
 
+        // Check if the customer id is empty.
         if (customerId == null)
             return null;
 
+        // Check if the order status is empty.
         if (currentOrderStatus == null || currentOrderStatus.isBlank())
             return null;
 
+        // Check if there are no order items.
         if (orderLineItems == null || orderLineItems.isEmpty())
             return null;
 
+        // Check if the financial breakdown is empty.
         if (dynamicTotals == null)
             return null;
 

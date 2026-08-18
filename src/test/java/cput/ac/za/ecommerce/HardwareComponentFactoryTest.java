@@ -5,8 +5,7 @@
 
 package cput.ac.za.ecommerce;
 
-import cput.ac.za.ecommerce.domain.DimensionSpecs;
-import cput.ac.za.ecommerce.domain.HardwareComponent;
+import cput.ac.za.ecommerce.domain.*;
 import cput.ac.za.ecommerce.factory.HardwareComponentFactory;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
@@ -24,12 +23,18 @@ public class HardwareComponentFactoryTest {
 
         HardwareComponent hardware = HardwareComponentFactory.createHardwareComponent(
                 "HWC001",
-                "Samsung",
+                Brand.SAMSUNG,
                 "970 EVO Plus",
                 1500.00,
+                "High performance NVMe SSD",
+                "https://via.placeholder.com/300x300?text=Samsung+SSD",
+                50,
+                "Black",
+                "1TB",
+                ProductCategory.SSD,
                 dimensions,
-                "SSD",
-                1000,
+                "Storage",
+                5,
                 "M.2 NVMe"
         );
 

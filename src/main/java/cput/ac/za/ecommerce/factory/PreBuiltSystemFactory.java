@@ -5,16 +5,21 @@
 
 package cput.ac.za.ecommerce.factory;
 
-import cput.ac.za.ecommerce.domain.DimensionSpecs;
-import cput.ac.za.ecommerce.domain.PreBuiltSystem;
+import cput.ac.za.ecommerce.domain.*;
 
 public class PreBuiltSystemFactory {
 
     public static PreBuiltSystem createPreBuiltSystem(
             String productId,
-            String brandName,
+            Brand brand,
             String modelName,
             double standardRetailPrice,
+            String description,
+            String imageUrl,
+            int stockQuantity,
+            String color,
+            String storage,
+            ProductCategory productCategory,
             DimensionSpecs physicalDimensions,
             String systemTierClassification,
             int warrantyPeriodMonths,
@@ -25,9 +30,15 @@ public class PreBuiltSystemFactory {
                 .setWarrantyPeriodMonths(warrantyPeriodMonths)
                 .setIsLiquidCooled(isLiquidCooled)
                 .setProductId(productId)
-                .setBrandName(brandName)
+                .setBrand(brand)
                 .setModelName(modelName)
                 .setStandardRetailPrice(standardRetailPrice)
+                .setDescription(description)
+                .setImageUrl(imageUrl)
+                .setStockQuantity(stockQuantity)
+                .setColor(color)
+                .setStorage(storage)
+                .setProductCategory(productCategory)
                 .setPhysicalDimensions(physicalDimensions)
                 .build();
     }

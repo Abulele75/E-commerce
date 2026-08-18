@@ -1,6 +1,7 @@
 package cput.ac.za.ecommerce.repository;
 
 import cput.ac.za.ecommerce.domain.User;
+import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,6 +13,7 @@ import java.util.concurrent.ConcurrentHashMap;
    Owenkosi Nxasana (230240887)
    Date: 12 July 2026
  */
+@Repository
 public final class InMemoryUserRepository implements UserManagementRepository {
     private final Map<String, User> users = new ConcurrentHashMap<>();
 

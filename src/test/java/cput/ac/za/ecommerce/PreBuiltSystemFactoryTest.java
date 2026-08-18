@@ -5,8 +5,7 @@
 
 package cput.ac.za.ecommerce;
 
-import cput.ac.za.ecommerce.domain.DimensionSpecs;
-import cput.ac.za.ecommerce.domain.PreBuiltSystem;
+import cput.ac.za.ecommerce.domain.*;
 import cput.ac.za.ecommerce.factory.PreBuiltSystemFactory;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
@@ -16,17 +15,23 @@ public class PreBuiltSystemFactoryTest {
     @Test
     void testCreatePreBuiltSystem() {
         DimensionSpecs dimensions = new DimensionSpecs.Builder()
-                .setPackageHeightCm(45.0)
-                .setPackageWidthCm(20.0)
-                .setPackageDepthCm(40.0)
-                .setPackageWeightKg(8.5)
+                .setPackageHeightCm(35.0)
+                .setPackageWidthCm(24.0)
+                .setPackageDepthCm(2.0)
+                .setPackageWeightKg(2.5)
                 .build();
 
         PreBuiltSystem system = PreBuiltSystemFactory.createPreBuiltSystem(
                 "PBS001",
-                "Samsung",
-                "Galaxy Book Pro",
+                Brand.ASUS,
+                "TUF Gaming F15",
                 25000.00,
+                "High performance gaming laptop",
+                "https://via.placeholder.com/300x300?text=ASUS+TUF",
+                20,
+                "Gray",
+                "512GB",
+                ProductCategory.LAPTOP,
                 dimensions,
                 "High-End",
                 24,

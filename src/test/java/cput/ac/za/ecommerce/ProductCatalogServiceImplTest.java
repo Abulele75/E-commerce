@@ -5,9 +5,7 @@
 
 package cput.ac.za.ecommerce;
 
-import cput.ac.za.ecommerce.domain.DimensionSpecs;
-import cput.ac.za.ecommerce.domain.HardwareComponent;
-import cput.ac.za.ecommerce.domain.ProductCatalog;
+import cput.ac.za.ecommerce.domain.*;
 import cput.ac.za.ecommerce.factory.HardwareComponentFactory;
 import cput.ac.za.ecommerce.repository.ProductCatalogRepository;
 import cput.ac.za.ecommerce.service.impl.ProductCatalogServiceImpl;
@@ -42,8 +40,21 @@ public class ProductCatalogServiceImplTest {
                 .build();
 
         hardware = HardwareComponentFactory.createHardwareComponent(
-                        "HWC001", "Samsung", "970 EVO Plus",
-                        1500.00, dimensions, "SSD", 1000, "M.2 NVMe");
+                "HWC001",
+                Brand.SAMSUNG,
+                "970 EVO Plus",
+                1500.00,
+                "High performance NVMe SSD",
+                "https://via.placeholder.com/300x300?text=Samsung+SSD",
+                50,
+                "Black",
+                "1TB",
+                ProductCategory.SSD,
+                dimensions,
+                "Storage",
+                5,
+                "M.2 NVMe"
+        );
     }
 
     @Test
@@ -66,4 +77,3 @@ public class ProductCatalogServiceImplTest {
         verify(repository, times(1)).deleteById("HWC001");
     }
 }
-

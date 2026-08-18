@@ -48,6 +48,67 @@ public class HardwareComponent extends ProductCatalog {
             return this;
         }
 
+        @Override
+        public Builder setBrand(Brand brand) {
+            super.setBrand(brand);
+            return this;
+        }
+
+        @Override
+        public Builder setModelName(String modelName) {
+            super.setModelName(modelName);
+            return this;
+        }
+
+        @Override
+        public Builder setStandardRetailPrice(double standardRetailPrice) {
+            super.setStandardRetailPrice(standardRetailPrice);
+            return this;
+        }
+
+        @Override
+        public Builder setDescription(String description) {
+            super.setDescription(description);
+            return this;
+        }
+
+        @Override
+        public Builder setImageUrl(String imageUrl) {
+            super.setImageUrl(imageUrl);
+            return this;
+        }
+
+        @Override
+        public Builder setStockQuantity(int stockQuantity) {
+            super.setStockQuantity(stockQuantity);
+            return this;
+        }
+
+        @Override
+        public Builder setColor(String color) {
+            super.setColor(color);
+            return this;
+        }
+
+        @Override
+        public Builder setStorage(String storage) {
+            super.setStorage(storage);
+            return this;
+        }
+
+        @Override
+        public Builder setProductCategory(ProductCategory productCategory) {
+            super.setProductCategory(productCategory);
+            return this;
+        }
+
+        @Override
+        public Builder setPhysicalDimensions(DimensionSpecs physicalDimensions) {
+            super.setPhysicalDimensions(physicalDimensions);
+            return this;
+        }
+
+        @Override
         public HardwareComponent build() {
             return new HardwareComponent(this);
         }

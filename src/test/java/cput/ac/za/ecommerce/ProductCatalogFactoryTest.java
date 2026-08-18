@@ -5,8 +5,7 @@
 
 package cput.ac.za.ecommerce;
 
-import cput.ac.za.ecommerce.domain.DimensionSpecs;
-import cput.ac.za.ecommerce.domain.ProductCatalog;
+import cput.ac.za.ecommerce.domain.*;
 import cput.ac.za.ecommerce.factory.ProductCatalogFactory;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
@@ -25,9 +24,15 @@ public class ProductCatalogFactoryTest {
         ProductCatalog product = ProductCatalogFactory.createProduct(
                 "hardware",
                 "P001",
-                "Samsung",
-                "970 EVO Plus",
+                Brand.SAMSUNG,
+                "990 PRO",
                 1500.00,
+                "High performance NVMe SSD",
+                "https://via.placeholder.com/300x300?text=Samsung+SSD",
+                50,
+                "Black",
+                "1TB",
+                ProductCategory.SSD,
                 dimensions
         );
 
@@ -37,18 +42,24 @@ public class ProductCatalogFactoryTest {
     @Test
     void testCreateSystemProduct() {
         DimensionSpecs dimensions = new DimensionSpecs.Builder()
-                .setPackageHeightCm(45.0)
-                .setPackageWidthCm(20.0)
-                .setPackageDepthCm(40.0)
-                .setPackageWeightKg(8.5)
+                .setPackageHeightCm(35.0)
+                .setPackageWidthCm(24.0)
+                .setPackageDepthCm(2.0)
+                .setPackageWeightKg(2.5)
                 .build();
 
         ProductCatalog product = ProductCatalogFactory.createProduct(
                 "system",
                 "P002",
-                "Samsung",
-                "Galaxy Book Pro",
-                25000.00,
+                Brand.APPLE,
+                "MacBook Pro 14",
+                35000.00,
+                "Professional laptop for creatives",
+                "https://via.placeholder.com/300x300?text=MacBook+Pro",
+                15,
+                "Silver",
+                "512GB",
+                ProductCategory.LAPTOP,
                 dimensions
         );
 

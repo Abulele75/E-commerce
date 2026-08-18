@@ -11,16 +11,19 @@ import cput.ac.za.ecommerce.domain.Customer;
 import cput.ac.za.ecommerce.domain.User;
 import cput.ac.za.ecommerce.factory.UserManagementFactory;
 import cput.ac.za.ecommerce.repository.UserManagementRepository;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-public final class UserManagementService {
+@Service
+public final class UserManagementService implements IUserManagementService {
     private final UserManagementRepository userRepository;
 
     public UserManagementService(UserManagementRepository userRepository) {
         this.userRepository = userRepository;
     }
 
+    @Override
     public Customer registerCustomer(AccountProfile profile, String customerNumber) {
         ensureEmailIsUnique(profile.getEmail());
         Customer customer = UserManagementFactory.createCustomer(profile, customerNumber);
@@ -30,6 +33,7 @@ public final class UserManagementService {
         return (Customer) userRepository.save(customer);
     }
 
+    @Override
     public Administrator registerAdministrator(AccountProfile profile, String employeeNumber, String department) {
         ensureEmailIsUnique(profile.getEmail());
         Administrator administrator = UserManagementFactory.createAdministrator(profile, employeeNumber, department);
@@ -39,15 +43,18 @@ public final class UserManagementService {
         return (Administrator) userRepository.save(administrator);
     }
 
+    @Override
     public User getUser(String userId) {
         return userRepository.findById(userId)
                 .orElseThrow(() -> new IllegalArgumentException("User was not found: " + userId));
     }
 
+    @Override
     public List<User> listUsers() {
         return userRepository.findAll();
     }
 
+    @Override
     public User updateProfile(String userId, AccountProfile profile) {
         User user = getUser(userId);
         userRepository.findByEmail(profile.getEmail())
@@ -59,6 +66,7 @@ public final class UserManagementService {
         return userRepository.save(user);
     }
 
+    @Override
     public void removeUser(String userId) {
         userRepository.deleteById(userId);
     }

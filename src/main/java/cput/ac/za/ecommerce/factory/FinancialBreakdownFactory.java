@@ -1,31 +1,36 @@
- /*
-  * FinancialBreakdownFactory.java
-  * Author: Sinethemba Nyimbinya (220085870)
-  * Date: 2026
-  */
- package cput.ac.za.ecommerce.factory;
- import cput.ac.za.ecommerce.domain.FinancialBreakdown;
+package cput.ac.za.ecommerce.factory;
 
- public class FinancialBreakdownFactory {
+/*
+ * FinancialBreakdownFactory.java
+ * Author: Sinethemba Nyimbinya (220085870)
+ * Date: 2026
+ */
 
-     public static FinancialBreakdown createFinancialBreakdown(
-                double basketSubTotal,
-                double calculatedVatAmount,
-                double finalInvoiceTotal) {
+import cput.ac.za.ecommerce.domain.FinancialBreakdown;
 
-            if (basketSubTotal < 0)
-                return null;
+public class FinancialBreakdownFactory {
 
-            if (calculatedVatAmount < 0)
-                return null;
+    public static FinancialBreakdown createFinancialBreakdown(
+            double basketSubTotal,
+            double calculatedVatAmount,
+            double finalInvoiceTotal) {
 
-            if (finalInvoiceTotal < basketSubTotal)
-                return null;
+        // Check if the subtotal is valid.
+        if (basketSubTotal < 0)
+            return null;
 
-            return new FinancialBreakdown.Builder()
-                    .setBasketSubTotal(basketSubTotal)
-                    .setCalculatedVatAmount(calculatedVatAmount)
-                    .setFinalInvoiceTotal(finalInvoiceTotal)
-                    .build();
-        }
+        // Check if the VAT amount is valid.
+        if (calculatedVatAmount < 0)
+            return null;
+
+        // Check if the final total is correct.
+        if (finalInvoiceTotal != basketSubTotal + calculatedVatAmount)
+            return null;
+
+        return new FinancialBreakdown.Builder()
+                .setBasketSubTotal(basketSubTotal)
+                .setCalculatedVatAmount(calculatedVatAmount)
+                .setFinalInvoiceTotal(finalInvoiceTotal)
+                .build();
     }
+}

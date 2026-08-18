@@ -1,20 +1,25 @@
 /* HardwareComponentFactory.java
-Factory class for HardwareComponent
-Author: Nomhle Njengele (216227488)
-Date: 27 June 2026 */
+   Factory class for HardwareComponent
+   Author: Nomhle Njengele (216227488)
+   Date: 27 June 2026 */
 
-        package cput.ac.za.ecommerce.factory;
+package cput.ac.za.ecommerce.factory;
 
-import cput.ac.za.ecommerce.domain.DimensionSpecs;
-import cput.ac.za.ecommerce.domain.HardwareComponent;
+import cput.ac.za.ecommerce.domain.*;
 
 public class HardwareComponentFactory {
 
     public static HardwareComponent createHardwareComponent(
             String productId,
-            String brandName,
+            Brand brand,
             String modelName,
             double standardRetailPrice,
+            String description,
+            String imageUrl,
+            int stockQuantity,
+            String color,
+            String storage,
+            ProductCategory productCategory,
             DimensionSpecs physicalDimensions,
             String hardwareCategory,
             int powerRequirementWatts,
@@ -25,9 +30,15 @@ public class HardwareComponentFactory {
                 .setPowerRequirementWatts(powerRequirementWatts)
                 .setComponentFormFactor(componentFormFactor)
                 .setProductId(productId)
-                .setBrandName(brandName)
+                .setBrand(brand)
                 .setModelName(modelName)
                 .setStandardRetailPrice(standardRetailPrice)
+                .setDescription(description)
+                .setImageUrl(imageUrl)
+                .setStockQuantity(stockQuantity)
+                .setColor(color)
+                .setStorage(storage)
+                .setProductCategory(productCategory)
                 .setPhysicalDimensions(physicalDimensions)
                 .build();
     }
