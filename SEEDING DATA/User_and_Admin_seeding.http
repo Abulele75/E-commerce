@@ -1,0 +1,55 @@
+### SEED CUSTOMER
+POST http://localhost:8081/api/users/register
+Content-Type: application/json
+
+{
+  "firstName": "Tiyani",
+  "lastName": "Baloyi",
+  "email": "tiyani@gmail.com",
+  "phoneNumber": "0711073494",
+  "password": "Password@12345",
+  "confirmPassword": "Password@12345"
+}
+
+### LOGIN — CUSTOMER
+POST http://localhost:8081/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "tiyani@gmail.com",
+  "password": "Password@12345"
+}
+
+### REGISTER ADMIN AS A USER THEN PROMOTE TO ADMIN ON MYSQL DATABASE
+
+POST http://localhost:8081/api/users/register
+Content-Type: application/json
+
+{
+  "firstName": "Sabre",
+  "lastName": "Didi",
+  "email": "admin@incredibletech.co.za",
+  "phoneNumber": "0646320874",
+  "password": "Admin@123456789",
+  "confirmPassword": "Admin@123456789"
+}
+
+### After registering a admin as a user go to MYSQL and promote them as an Admin
+# SELECT user_id, first_name, last_name, email
+# FROM app_user
+# WHERE email = 'admin@incredibletech.co.za';
+#
+# INSERT INTO administrator
+# (user_id, employee_number, department)
+# VALUES
+#     ('insert_user_id_here', 'EMP-0001', 'Operations');
+
+
+### LOGIN — ADMIN
+POST http://localhost:8081/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "admin@incredibletech.co.za",
+  "password": "Admin@123456789"
+}

@@ -1,0 +1,70 @@
+@adminToken = PASTE_ADMIN_JWT_HERE
+@orderId = PASTE_PAID_ORDER_ID_HERE
+@deliveryId = DEL-0001
+
+# Run payment_seeding.http first and paste the paid ORD-* ID above.
+### CREATE DELIVERY
+POST http://localhost:8081/api/deliveries
+Content-Type: application/json
+Authorization: Bearer {{adminToken}}
+
+{
+  "deliveryId": "{{deliveryId}}",
+  "orderId": "{{orderId}}",
+  "trackingNumber": "ICT-ZA-000001",
+  "deliveryStatus": "PREPARING",
+  "deliveryAddress": {
+    "recipientName": "Tiyani Baloyi",
+    "recipientPhone": "0711073494",
+    "streetAddress": "12 Long Street",
+    "suburb": "Cape Town City Centre",
+    "city": "Cape Town",
+    "province": "Western Cape",
+    "postalCode": "8001",
+    "country": "South Africa"
+  }
+}
+
+### TRACK DISPATCHED DELIVERY
+POST http://localhost:8081/api/deliveries/{{deliveryId}}/tracking
+Content-Type: application/json
+Authorization: Bearer {{adminToken}}
+
+{
+  "deliveryStatus": "DISPATCHED",
+  "currentLocation": "Cape Town Distribution Centre",
+  "statusMessage": "The parcel has been collected and dispatched."
+}
+
+### TRACK DELIVERY IN TRANSIT
+POST http://localhost:8081/api/deliveries/{{deliveryId}}/tracking
+Content-Type: application/json
+Authorization: Bearer {{adminToken}}
+
+{
+  "deliveryStatus": "IN_TRANSIT",
+  "currentLocation": "Cape Town Central Depot",
+  "statusMessage": "The parcel is in transit to the local delivery depot."
+}
+
+### TRACK DELIVERY OUT FOR DELIVERY
+POST http://localhost:8081/api/deliveries/{{deliveryId}}/tracking
+Content-Type: application/json
+Authorization: Bearer {{adminToken}}
+
+{
+  "deliveryStatus": "OUT_FOR_DELIVERY",
+  "currentLocation": "Cape Town City Centre",
+  "statusMessage": "The parcel is with the courier and is out for delivery."
+}
+
+### TRACK DELIVERED ORDER
+POST http://localhost:8081/api/deliveries/{{deliveryId}}/tracking
+Content-Type: application/json
+Authorization: Bearer {{adminToken}}
+
+{
+  "deliveryStatus": "DELIVERED",
+  "currentLocation": "12 Long Street, Cape Town",
+  "statusMessage": "The parcel was delivered to the recipient."
+}

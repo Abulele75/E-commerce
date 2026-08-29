@@ -1,0 +1,25 @@
+@customerToken = PASTE_CUSTOMER_JWT_HERE
+@productId = PASTE_PURCHASED_PRODUCT_ID_HERE
+
+# Paste the reviewed PRD-* ID above. The current API uses targetProductId for both review types.
+### SEED PRODUCT REVIEW
+POST http://localhost:8081/api/feedback/product-reviews
+Content-Type: application/json
+Authorization: Bearer {{customerToken}}
+
+{
+  "targetProductId": "{{productId}}",
+  "hardwareStarRating": 5,
+  "comprehensiveReviewText": "Excellent performance, premium build quality and reliable battery life. The product matched its catalogue description and has worked perfectly."
+}
+
+### SEED DELIVERY SERVICE REVIEW
+POST http://localhost:8081/api/feedback/delivery-reviews
+Content-Type: application/json
+Authorization: Bearer {{customerToken}}
+
+{
+  "targetProductId": "{{productId}}",
+  "courierFulfillmentRating": 5,
+  "packageConditionFeedback": "The courier arrived within the expected delivery window. The parcel was sealed, undamaged and handled professionally."
+}

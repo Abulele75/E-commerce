@@ -1,38 +1,76 @@
-package cput.ac.za.ecommerce.factory;
+ /*
+  * OrderItemFactory.java
+  * Author: Sinethemba Nyimbinya (220085870)
+  * Date: 21 June 2026
+  */
 
-/*
- * OrderItemFactory.java
- * Author: Sinethemba Nyimbinya (220085870)
- * Date: 2026
- */
+ package cput.ac.za.ecommerce.factory;
 
-import cput.ac.za.ecommerce.domain.OrderItem;
+ import cput.ac.za.ecommerce.domain.OrderItem;
+ import cput.ac.za.ecommerce.domain.ProductCatalog;
 
-import java.util.UUID;
+ import java.math.BigDecimal;
+ import java.util.UUID;
 
-public class OrderItemFactory {
+ public final class OrderItemFactory {
 
-    public static OrderItem createOrderItem(UUID productId,
-                                            int quantityPurchased,
-                                            double itemPriceSnapshot) {
+     private OrderItemFactory() {
+     }
 
-        // Check if the product id is empty.
-        if (productId == null)
-            return null;
+     public static OrderItem createOrderItem(
+             ProductCatalog product,
+             int quantity
+     ) {
+         if (product == null
+                 || quantity <= 0
+                 || quantity
+                 > product.getStockQuantity()) {
+             return null;
+         }
 
-        // Check if the quantity is valid.
-        if (quantityPurchased <= 0)
-            return null;
+         BigDecimal effectivePrice =
+                 product.getEffectivePrice();
 
-        // Check if the item price is valid.
-        if (itemPriceSnapshot <= 0)
-            return null;
+         if (effectivePrice == null
+                 || effectivePrice.compareTo(
+                 BigDecimal.ZERO
+         ) <= 0) {
+             return null;
+         }
 
-        return new OrderItem.Builder()
-                .setOrderItemId(UUID.randomUUID())
-                .setProductId(productId)
-                .setQuantityPurchased(quantityPurchased)
-                .setItemPriceSnapshot(itemPriceSnapshot)
-                .build();
-    }
-}
+         return new OrderItem.Builder()
+                 .setOrderItemId(
+                         generateOrderItemId()
+                 )
+                 .setProductIdSnapshot(
+                         product.getProductId()
+                 )
+                 .setSkuSnapshot(
+                         product.getSku()
+                 )
+                 .setProductNameSnapshot(
+                         product.getProductName()
+                 )
+                 .setBrandSnapshot(
+                         product.getBrand()
+                 )
+                 .setImageUrlSnapshot(
+                         product.getPrimaryImageUrl()
+                 )
+                 .setUnitPriceSnapshot(
+                         effectivePrice
+                 )
+                 .setQuantityPurchased(quantity)
+                 .build();
+     }
+
+     private static String
+     generateOrderItemId() {
+         return "OI-"
+                 + UUID.randomUUID()
+                 .toString()
+                 .replace("-", "")
+                 .substring(0, 14)
+                 .toUpperCase();
+     }
+ }

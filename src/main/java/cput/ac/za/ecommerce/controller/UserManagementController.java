@@ -1,94 +1,172 @@
 package cput.ac.za.ecommerce.controller;
 
-import cput.ac.za.ecommerce.domain.AccountProfile;
-import cput.ac.za.ecommerce.domain.Administrator;
 import cput.ac.za.ecommerce.domain.Customer;
 import cput.ac.za.ecommerce.domain.User;
+import cput.ac.za.ecommerce.request.RegisterRequest;
+import cput.ac.za.ecommerce.request.UpdateProfileRequest;
+import cput.ac.za.ecommerce.response.UserResponse;
 import cput.ac.za.ecommerce.service.IUserManagementService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/users")
 public class UserManagementController {
-    private final IUserManagementService userService;
 
-    @Autowired
-    public UserManagementController(IUserManagementService userService) {
+    private final IUserManagementService
+            userService;
+
+    public UserManagementController(
+            IUserManagementService userService
+    ) {
         this.userService = userService;
     }
 
-    @PostMapping("/customers")
-    public Customer createCustomer(@RequestBody CreateCustomerRequest request) {
-        return userService.registerCustomer(request.toProfile(), request.customerNumber());
+    @PostMapping("/register")
+    public ResponseEntity<UserResponse>
+    registerCustomer(
+            @Valid
+            @RequestBody
+            RegisterRequest request
+    ) {
+        Customer customer =
+                userService.registerCustomer(request);
+
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(
+                        UserResponse.from(customer)
+                );
     }
 
-    @PostMapping("/administrators")
-    public Administrator createAdministrator(@RequestBody CreateAdministratorRequest request) {
-        return userService.registerAdministrator(request.toProfile(), request.employeeNumber(), request.department());
+    @GetMapping("/me")
+    public ResponseEntity<UserResponse>
+    getCurrentProfile(
+            Authentication authentication
+    ) {
+        User user =
+                userService.getUserByEmail(
+                        authenticatedEmail(
+                                authentication
+                        )
+                );
+
+        return ResponseEntity.ok(
+                UserResponse.from(user)
+        );
     }
 
-    @GetMapping("/{userId}")
-    public User getUser(@PathVariable String userId) {
-        return userService.getUser(userId);
+    @PutMapping("/me")
+    public ResponseEntity<UserResponse>
+    updateCurrentProfile(
+            @Valid
+            @RequestBody
+            UpdateProfileRequest request,
+
+            Authentication authentication
+    ) {
+        User user =
+                userService.updateCurrentProfile(
+                        authenticatedEmail(
+                                authentication
+                        ),
+                        request
+                );
+
+        return ResponseEntity.ok(
+                UserResponse.from(user)
+        );
     }
 
+    @PatchMapping("/me/deactivate")
+    public ResponseEntity<UserResponse>
+    deactivateCurrentAccount(
+            Authentication authentication
+    ) {
+        User user =
+                userService
+                        .deactivateCurrentAccount(
+                                authenticatedEmail(
+                                        authentication
+                                )
+                        );
+
+        return ResponseEntity.ok(
+                UserResponse.from(user)
+        );
+    }
+
+    @PreAuthorize(
+            "hasRole('ADMINISTRATOR')"
+    )
     @GetMapping
-    public List<User> getUsers() {
-        return userService.listUsers();
+    public ResponseEntity<List<UserResponse>>
+    getAllUsers() {
+        List<UserResponse> users =
+                userService.getAllUsers()
+                        .stream()
+                        .map(UserResponse::from)
+                        .toList();
+
+        return ResponseEntity.ok(users);
     }
 
-    @PutMapping("/{userId}/profile")
-    public User updateProfile(@PathVariable String userId, @RequestBody AccountProfile profile) {
-        return userService.updateProfile(userId, profile);
-    }
-
-    @DeleteMapping("/{userId}")
-    public void deleteUser(@PathVariable String userId) {
-        userService.removeUser(userId);
-    }
-
-    public record CreateCustomerRequest(
-            String firstName,
-            String lastName,
-            String email,
-            String phoneNumber,
-            String customerNumber
+    @PreAuthorize(
+            "hasRole('ADMINISTRATOR')"
+    )
+    @PatchMapping("/{userId}/activate")
+    public ResponseEntity<UserResponse>
+    activateUser(
+            @PathVariable String userId
     ) {
-        private AccountProfile toProfile() {
-            return AccountProfile.builder()
-                    .setFirstName(firstName)
-                    .setLastName(lastName)
-                    .setEmail(email)
-                    .setPhoneNumber(phoneNumber)
-                    .build();
-        }
+        return ResponseEntity.ok(
+                UserResponse.from(
+                        userService.activateUser(
+                                userId
+                        )
+                )
+        );
     }
 
-    public record CreateAdministratorRequest(
-            String firstName,
-            String lastName,
-            String email,
-            String phoneNumber,
-            String employeeNumber,
-            String department
+    @PreAuthorize(
+            "hasRole('ADMINISTRATOR')"
+    )
+    @PatchMapping("/{userId}/deactivate")
+    public ResponseEntity<UserResponse>
+    deactivateUser(
+            @PathVariable String userId
     ) {
-        private AccountProfile toProfile() {
-            return AccountProfile.builder()
-                    .setFirstName(firstName)
-                    .setLastName(lastName)
-                    .setEmail(email)
-                    .setPhoneNumber(phoneNumber)
-                    .build();
+        return ResponseEntity.ok(
+                UserResponse.from(
+                        userService.deactivateUser(
+                                userId
+                        )
+                )
+        );
+    }
+
+    private String authenticatedEmail(
+            Authentication authentication
+    ) {
+        if (authentication == null
+                || !authentication.isAuthenticated()
+                || authentication.getName() == null
+                || authentication.getName().isBlank()) {
+
+            throw new AccessDeniedException(
+                    "Authentication is required"
+            );
         }
+
+        return authentication.getName()
+                .trim()
+                .toLowerCase();
     }
 }

@@ -8,10 +8,11 @@ import java.util.List;
     Author: Abulele Ntwanambi(218276400)
     Date: 12 July 2026 */
 
-public interface IFeedback {
+public interface IFeedbackService {
     Feedback create(Feedback feedback);
     Feedback read(String feedbackId);
     List<Feedback> getAll();
+    List<Feedback> getProductReviews(String productId);
     Feedback update(Feedback feedback);
     void delete(String feedbackId);
 }

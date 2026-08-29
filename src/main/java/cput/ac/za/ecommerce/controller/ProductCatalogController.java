@@ -1,13 +1,11 @@
-/* ProductCatalogController.java
-        Controller for Product Catalog Service
-        Author: Nomhle Njengele (216227488)
-        Date: 24 July 2026 */
-
-        package cput.ac.za.ecommerce.controller;
+package cput.ac.za.ecommerce.controller;
 
 import cput.ac.za.ecommerce.domain.ProductCatalog;
+import cput.ac.za.ecommerce.request.ProductCatalogRequest;
 import cput.ac.za.ecommerce.service.IProductCatalogService;
-import org.springframework.beans.factory.annotation.Autowired;
+import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,33 +16,69 @@ public class ProductCatalogController {
 
     private final IProductCatalogService service;
 
-    @Autowired
-    public ProductCatalogController(IProductCatalogService service) {
+    public ProductCatalogController(
+            IProductCatalogService service
+    ) {
         this.service = service;
     }
 
     @PostMapping
-    public ProductCatalog save(@RequestBody ProductCatalog productCatalog) {
-        return service.saveProductCatalog(productCatalog);
+    public ResponseEntity<ProductCatalog> createProduct(
+            @Valid
+            @RequestBody
+            ProductCatalogRequest request
+    ) {
+
+        ProductCatalog product =
+                service.createProduct(request);
+
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(product);
     }
 
     @GetMapping("/{productId}")
-    public ProductCatalog getById(@PathVariable String productId) {
-        return service.getProductCatalogById(productId);
+    public ResponseEntity<ProductCatalog> getProductById(
+            @PathVariable String productId
+    ) {
+
+        return ResponseEntity.ok(
+                service.getProductCatalogById(productId)
+        );
     }
 
     @GetMapping
-    public List<ProductCatalog> getAll() {
-        return service.getAllProductCatalogs();
+    public ResponseEntity<List<ProductCatalog>> getAllProducts() {
+
+        return ResponseEntity.ok(
+                service.getAllProductCatalogs()
+        );
     }
 
-    @PutMapping
-    public ProductCatalog update(@RequestBody ProductCatalog productCatalog) {
-        return service.updateProductCatalog(productCatalog);
+    @PutMapping("/{productId}")
+    public ResponseEntity<ProductCatalog> updateProduct(
+            @PathVariable String productId,
+            @Valid
+            @RequestBody
+            ProductCatalogRequest request
+    ) {
+
+        ProductCatalog updated =
+                service.updateProduct(
+                        productId,
+                        request
+                );
+
+        return ResponseEntity.ok(updated);
     }
 
     @DeleteMapping("/{productId}")
-    public void delete(@PathVariable String productId) {
+    public ResponseEntity<Void> deleteProduct(
+            @PathVariable String productId
+    ) {
+
         service.deleteProductCatalog(productId);
+
+        return ResponseEntity.noContent().build();
     }
 }

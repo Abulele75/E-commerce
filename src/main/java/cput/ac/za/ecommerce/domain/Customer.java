@@ -1,24 +1,33 @@
-package cput.ac.za.ecommerce.domain;
+
 /*
    Customer.java
    Owenkosi Nxasana (230240887)
    Date: 20 June 2026
  */
+package cput.ac.za.ecommerce.domain;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "customer")
 public class Customer extends User {
+
+    @Column(
+            name = "customer_number",
+            nullable = false,
+            unique = true,
+            length = 50
+    )
     private String customerNumber;
+
+    protected Customer() {
+    }
 
     private Customer(Builder builder) {
         super(builder);
         this.customerNumber = builder.customerNumber;
-    }
-
-    protected Customer() {
     }
 
     public static Builder builder() {
@@ -34,13 +43,14 @@ public class Customer extends User {
         return UserRole.CUSTOMER;
     }
 
-    public static class Builder extends User.Builder<Builder> {
+    public static class Builder
+            extends User.Builder<Builder> {
+
         private String customerNumber;
 
-        private Builder() {
-        }
-
-        public Builder setCustomerNumber(String customerNumber) {
+        public Builder setCustomerNumber(
+                String customerNumber
+        ) {
             this.customerNumber = customerNumber;
             return this;
         }
@@ -51,13 +61,6 @@ public class Customer extends User {
         }
 
         public Customer build() {
-            if (!baseFieldsAreValid()) {
-                return null;
-            }
-            if (customerNumber == null || customerNumber.isEmpty()) {
-                return null;
-            }
-
             return new Customer(this);
         }
     }

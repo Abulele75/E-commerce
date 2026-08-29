@@ -1,3 +1,4 @@
+
 /* DimensionSpecs.java
    Value Object for Product Catalog Service
    Author: Nomhle Njengele (216227488)
@@ -15,43 +16,75 @@ public class DimensionSpecs {
     private double packageDepthCm;
     private double packageWeightKg;
 
-    private DimensionSpecs(Builder builder) {
-        this.packageHeightCm = builder.packageHeightCm;
-        this.packageWidthCm = builder.packageWidthCm;
-        this.packageDepthCm = builder.packageDepthCm;
-        this.packageWeightKg = builder.packageWeightKg;
+    protected DimensionSpecs() {
     }
 
-    protected DimensionSpecs() {}
+    private DimensionSpecs(Builder builder) {
+        this.packageHeightCm =
+                builder.packageHeightCm;
 
-    public double getPackageHeightCm() { return packageHeightCm; }
-    public double getPackageWidthCm() { return packageWidthCm; }
-    public double getPackageDepthCm() { return packageDepthCm; }
-    public double getPackageWeightKg() { return packageWeightKg; }
+        this.packageWidthCm =
+                builder.packageWidthCm;
+
+        this.packageDepthCm =
+                builder.packageDepthCm;
+
+        this.packageWeightKg =
+                builder.packageWeightKg;
+    }
+
+    public double getPackageHeightCm() {
+        return packageHeightCm;
+    }
+
+    public double getPackageWidthCm() {
+        return packageWidthCm;
+    }
+
+    public double getPackageDepthCm() {
+        return packageDepthCm;
+    }
+
+    public double getPackageWeightKg() {
+        return packageWeightKg;
+    }
 
     public static class Builder {
+
         private double packageHeightCm;
         private double packageWidthCm;
         private double packageDepthCm;
         private double packageWeightKg;
 
-        public Builder setPackageHeightCm(double packageHeightCm) {
-            this.packageHeightCm = packageHeightCm;
+        public Builder setPackageHeightCm(
+                double packageHeightCm
+        ) {
+            this.packageHeightCm =
+                    packageHeightCm;
             return this;
         }
 
-        public Builder setPackageWidthCm(double packageWidthCm) {
-            this.packageWidthCm = packageWidthCm;
+        public Builder setPackageWidthCm(
+                double packageWidthCm
+        ) {
+            this.packageWidthCm =
+                    packageWidthCm;
             return this;
         }
 
-        public Builder setPackageDepthCm(double packageDepthCm) {
-            this.packageDepthCm = packageDepthCm;
+        public Builder setPackageDepthCm(
+                double packageDepthCm
+        ) {
+            this.packageDepthCm =
+                    packageDepthCm;
             return this;
         }
 
-        public Builder setPackageWeightKg(double packageWeightKg) {
-            this.packageWeightKg = packageWeightKg;
+        public Builder setPackageWeightKg(
+                double packageWeightKg
+        ) {
+            this.packageWeightKg =
+                    packageWeightKg;
             return this;
         }
 

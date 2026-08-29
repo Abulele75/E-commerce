@@ -4,61 +4,194 @@
    Date: 21 June 2026
  */
 
-
 package cput.ac.za.ecommerce.factory;
 
-import cput.ac.za.ecommerce.domain.BillingLocation;
-import cput.ac.za.ecommerce.domain.CardPayment;
-import cput.ac.za.ecommerce.domain.DigitalWalletPayment;
+import cput.ac.za.ecommerce.domain.*;
+import cput.ac.za.ecommerce.request.BillingLocationRequest;
+import cput.ac.za.ecommerce.util.ValidationPatterns;
 
-import java.time.LocalDateTime;
+import java.math.BigDecimal;
 import java.util.UUID;
 
-public class PaymentFactory {
+public final class PaymentFactory {
 
-    private static boolean isNullOrEmpty(String str) {
-        return str == null || str.trim().isEmpty();
+    private PaymentFactory() {
     }
 
-    public static CardPayment createCardPayment(String targetOrderId, double totalCapturedAmount,
-                                                BillingLocation billingAddress, String paymentGatewayReference,
-                                                String cardBrandType) {
-        if (isNullOrEmpty(targetOrderId) || totalCapturedAmount <= 0.0 || billingAddress == null
-                || isNullOrEmpty(paymentGatewayReference) || isNullOrEmpty(cardBrandType)) {
+    public static CardPayment createCardPayment(
+            Order order,
+            BigDecimal capturedAmount,
+            BillingLocation billingLocation,
+            String paymentGatewayReference,
+            CardBrand cardBrand,
+            String cardholderName,
+            String cardLastFourDigits
+    ) {
+        if (!isValidCommonPayment(
+                order,
+                capturedAmount,
+                billingLocation,
+                paymentGatewayReference
+        )) {
             return null;
         }
 
-        return (CardPayment) new CardPayment.Builder()
-                .paymentGatewayReference(paymentGatewayReference)
-                .cardBrandType(cardBrandType)
-                .transactionId(UUID.randomUUID().toString())
-                .targetOrderId(targetOrderId)
-                .totalCapturedAmount(totalCapturedAmount)
-                .executionTimestamp(LocalDateTime.now())
-                .billingAddress(billingAddress)
+        String normalizedCardholderName =
+                ValidationPatterns.normalizeName(
+                        cardholderName
+                );
+
+        if (!ValidationPatterns.isValidName(
+                normalizedCardholderName
+        )) {
+            return null;
+        }
+
+        if (cardBrand == null
+                || cardLastFourDigits == null
+                || !cardLastFourDigits.matches(
+                "^\\d{4}$"
+        )) {
+            return null;
+        }
+
+        return new CardPayment.Builder()
+                .setTransactionId(
+                        generateTransactionId()
+                )
+                .setOrder(order)
+                .setCapturedAmount(
+                        capturedAmount
+                )
+                .setBillingLocation(
+                        billingLocation
+                )
+                .setPaymentGatewayReference(
+                        paymentGatewayReference
+                )
+                .setCardBrand(cardBrand)
+                .setCardholderName(
+                        normalizedCardholderName
+                )
+                .setCardLastFourDigits(
+                        cardLastFourDigits
+                )
                 .build();
-
-
     }
 
-    public static DigitalWalletPayment createDigitalWalletPayment(String targetOrderId, double totalCapturedAmount,
-                                                                  BillingLocation billingAddress, String paymentProviderName,
-                                                                  String electronicTokenVerification)
+    public static DigitalWalletPayment
+    createDigitalWalletPayment(
+            Order order,
+            BigDecimal capturedAmount,
+            BillingLocation billingLocation,
+            WalletProvider walletProvider,
+            String providerTransactionReference
+    ) {
+        if (!isValidCommonPayment(
+                order,
+                capturedAmount,
+                billingLocation,
+                providerTransactionReference
+        )) {
+            return null;
+        }
+
+        if (walletProvider == null) {
+            return null;
+        }
+
+        return new DigitalWalletPayment.Builder()
+                .setTransactionId(
+                        generateTransactionId()
+                )
+                .setOrder(order)
+                .setCapturedAmount(
+                        capturedAmount
+                )
+                .setBillingLocation(
+                        billingLocation
+                )
+                .setWalletProvider(
+                        walletProvider
+                )
+                .setProviderTransactionReference(
+                        providerTransactionReference
+                )
+                .build();
+    }
+
+    public static BillingLocation
+    createBillingLocation(BillingLocationRequest request)
     {
-        if (isNullOrEmpty(targetOrderId) || totalCapturedAmount <= 0.0 || billingAddress == null
-                || isNullOrEmpty(paymentProviderName) || isNullOrEmpty(electronicTokenVerification)) {
+        if (request == null)
+        {
             return null;
         }
 
-        return (DigitalWalletPayment) new DigitalWalletPayment.Builder()
-                .paymentProviderName(paymentProviderName)
-                .electronicTokenVerification(electronicTokenVerification)
-                .transactionId(UUID.randomUUID().toString())
-                .targetOrderId(targetOrderId)
-                .totalCapturedAmount(totalCapturedAmount)
-                .executionTimestamp(LocalDateTime.now())
-                .billingAddress(billingAddress)
-                .build();
+        String normalizedBillingName = ValidationPatterns.normalizeName(request.getBillingName());
+
+        if (!ValidationPatterns.isValidName(normalizedBillingName))
+        {
+            return null;
+        }
+
+        if (isBlank(request.getStreetAddress())
+                || isBlank(request.getCity())
+                || isBlank(request.getProvince())
+                || request.getPostalCode() == null
+                || !request.getPostalCode()
+                .matches("^\\d{4}$")) {
+
+            return null;
+        }
+
+        return new BillingLocation.Builder()
+                .setBillingName(normalizedBillingName)
+                .setStreetAddress(request.getStreetAddress().trim())
+                .setSuburb(trimToNull(request.getSuburb()))
+                .setCity(request.getCity().trim())
+                .setProvince(request.getProvince().trim())
+                .setPostalCode(request.getPostalCode().trim())
+                .setCountry(isBlank(request.getCountry()) ? "South Africa" : request.getCountry().trim()
+                ).build();
     }
 
+    private static boolean isValidCommonPayment(
+            Order order,
+            BigDecimal capturedAmount,
+            BillingLocation billingLocation,
+            String providerReference
+    ) {
+        return order != null
+                && capturedAmount != null
+                && capturedAmount.compareTo(
+                BigDecimal.ZERO
+        ) > 0
+                && billingLocation != null
+                && !isBlank(providerReference);
+    }
+
+    private static String generateTransactionId() {
+        return "PAY-"
+                + UUID.randomUUID()
+                .toString()
+                .replace("-", "")
+                .substring(0, 14)
+                .toUpperCase();
+    }
+
+    private static boolean isBlank(
+            String value
+    ) {
+        return value == null
+                || value.isBlank();
+    }
+
+    private static String trimToNull(
+            String value
+    ) {
+        return isBlank(value)
+                ? null
+                : value.trim();
+    }
 }

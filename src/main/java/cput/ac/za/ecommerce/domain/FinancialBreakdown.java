@@ -1,75 +1,142 @@
-package cput.ac.za.ecommerce.domain;
-
 /*
  * FinancialBreakdown.java
  * Author: Sinethemba Nyimbinya (220085870)
- * Date: 2026
+ * 21 June 2026
  */
 
+package cput.ac.za.ecommerce.domain;
+
+import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
+
+import java.math.BigDecimal;
 
 @Embeddable
 public class FinancialBreakdown {
 
-    private double basketSubTotal;
-    private double calculatedVatAmount;
-    private double finalInvoiceTotal;
+    @Column(
+            name = "basket_subtotal",
+            nullable = false,
+            precision = 12,
+            scale = 2
+    )
+    private BigDecimal basketSubtotal;
+
+    @Column(
+            name = "discount_amount",
+            nullable = false,
+            precision = 12,
+            scale = 2
+    )
+    private BigDecimal discountAmount;
+
+    @Column(
+            name = "vat_amount",
+            nullable = false,
+            precision = 12,
+            scale = 2
+    )
+    private BigDecimal vatAmount;
+
+    @Column(
+            name = "delivery_fee",
+            nullable = false,
+            precision = 12,
+            scale = 2
+    )
+    private BigDecimal deliveryFee;
+
+    @Column(
+            name = "final_invoice_total",
+            nullable = false,
+            precision = 12,
+            scale = 2
+    )
+    private BigDecimal finalInvoiceTotal;
 
     protected FinancialBreakdown() {
     }
 
     private FinancialBreakdown(Builder builder) {
-        this.basketSubTotal = builder.basketSubTotal;
-        this.calculatedVatAmount = builder.calculatedVatAmount;
-        this.finalInvoiceTotal = builder.finalInvoiceTotal;
+        this.basketSubtotal =
+                builder.basketSubtotal;
+
+        this.discountAmount =
+                builder.discountAmount;
+
+        this.vatAmount = builder.vatAmount;
+        this.deliveryFee = builder.deliveryFee;
+
+        this.finalInvoiceTotal =
+                builder.finalInvoiceTotal;
     }
 
-    public double getBasketSubTotal() {
-        return basketSubTotal;
+    public BigDecimal getBasketSubtotal() {
+        return basketSubtotal;
     }
 
-    public double getCalculatedVatAmount() {
-        return calculatedVatAmount;
+    public BigDecimal getDiscountAmount() {
+        return discountAmount;
     }
 
-    public double getFinalInvoiceTotal() {
+    public BigDecimal getVatAmount() {
+        return vatAmount;
+    }
+
+    public BigDecimal getDeliveryFee() {
+        return deliveryFee;
+    }
+
+    public BigDecimal getFinalInvoiceTotal() {
         return finalInvoiceTotal;
-    }
-
-    @Override
-    public String toString() {
-        return "FinancialBreakdown{" +
-                "basketSubTotal=" + basketSubTotal +
-                ", calculatedVatAmount=" + calculatedVatAmount +
-                ", finalInvoiceTotal=" + finalInvoiceTotal +
-                '}';
     }
 
     public static class Builder {
 
-        private double basketSubTotal;
-        private double calculatedVatAmount;
-        private double finalInvoiceTotal;
+        private BigDecimal basketSubtotal;
+        private BigDecimal discountAmount;
+        private BigDecimal vatAmount;
+        private BigDecimal deliveryFee;
+        private BigDecimal finalInvoiceTotal;
 
-        public Builder setBasketSubTotal(double basketSubTotal) {
-            this.basketSubTotal = basketSubTotal;
+        public Builder setBasketSubtotal(
+                BigDecimal basketSubtotal
+        ) {
+            this.basketSubtotal =
+                    basketSubtotal;
+
             return this;
         }
 
-        public Builder setCalculatedVatAmount(double calculatedVatAmount) {
-            this.calculatedVatAmount = calculatedVatAmount;
+        public Builder setDiscountAmount(
+                BigDecimal discountAmount
+        ) {
+            this.discountAmount =
+                    discountAmount;
+
             return this;
         }
 
-        public Builder setFinalInvoiceTotal(double finalInvoiceTotal) {
-            this.finalInvoiceTotal = finalInvoiceTotal;
+        public Builder setVatAmount(
+                BigDecimal vatAmount
+        ) {
+            this.vatAmount = vatAmount;
             return this;
         }
 
-        public Builder copy(FinancialBreakdown financialBreakdown) {
-            this.basketSubTotal = financialBreakdown.basketSubTotal;
-            this.calculatedVatAmount = financialBreakdown.calculatedVatAmount;
-            this.finalInvoiceTotal = financialBreakdown.finalInvoiceTotal;
+        public Builder setDeliveryFee(
+                BigDecimal deliveryFee
+        ) {
+            this.deliveryFee = deliveryFee;
+            return this;
+        }
+
+        public Builder setFinalInvoiceTotal(
+                BigDecimal finalInvoiceTotal
+        ) {
+            this.finalInvoiceTotal =
+                    finalInvoiceTotal;
+
             return this;
         }
 

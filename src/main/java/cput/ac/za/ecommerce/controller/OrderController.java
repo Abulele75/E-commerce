@@ -1,57 +1,183 @@
 package cput.ac.za.ecommerce.controller;
 
 import cput.ac.za.ecommerce.domain.Order;
-import cput.ac.za.ecommerce.service.impl.OrderServiceImpl;
-import org.springframework.beans.factory.annotation.Autowired;
+import cput.ac.za.ecommerce.domain.OrderStatus;
+import cput.ac.za.ecommerce.request.CheckoutRequest;
+import cput.ac.za.ecommerce.request.UpdateOrderStatusRequest;
+import cput.ac.za.ecommerce.response.OrderResponse;
+import cput.ac.za.ecommerce.service.IOrderService;
+import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.UUID;
-
-/*
- * OrderController.java
- * Author: Sinethemba Nyimbinya (220085870)
- * Date: 2026
- */
 
 @RestController
-@RequestMapping("/order")
+@RequestMapping("/api/orders")
 public class OrderController {
 
-    private final OrderServiceImpl orderService;
+    private final IOrderService orderService;
 
-    @Autowired
-    public OrderController(OrderServiceImpl orderService) {
+    public OrderController(
+            IOrderService orderService
+    ) {
         this.orderService = orderService;
     }
 
-    // Create order
-    @PostMapping("/create")
-    public Order create(@RequestBody Order order) {
-        return orderService.create(order);
+    @PostMapping("/checkout")
+    public ResponseEntity<OrderResponse>
+    checkout(
+            @Valid
+            @RequestBody
+            CheckoutRequest request,
+
+            Authentication authentication
+    ) {
+        Order order =
+                orderService.checkout(
+                        getAuthenticatedEmail(
+                                authentication
+                        ),
+                        request
+                );
+
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(
+                        OrderResponse.from(order)
+                );
     }
 
-    // Find order
-    @GetMapping("/read/{orderId}")
-    public Order read(@PathVariable UUID orderId) {
-        return orderService.read(orderId);
+    @GetMapping("/my-orders")
+    public ResponseEntity<List<OrderResponse>>
+    getMyOrders(
+            Authentication authentication
+    ) {
+        List<OrderResponse> responses =
+                orderService
+                        .getCustomerOrders(
+                                getAuthenticatedEmail(
+                                        authentication
+                                )
+                        )
+                        .stream()
+                        .map(OrderResponse::from)
+                        .toList();
+
+        return ResponseEntity.ok(responses);
     }
 
-    // Get all orders
-    @GetMapping("/getAll")
-    public List<Order> getAll() {
-        return orderService.getAll();
+    @GetMapping("/{orderId}")
+    public ResponseEntity<OrderResponse>
+    getMyOrder(
+            @PathVariable
+            String orderId,
+
+            Authentication authentication
+    ) {
+        Order order =
+                orderService.getCustomerOrder(
+                        getAuthenticatedEmail(
+                                authentication
+                        ),
+                        orderId
+                );
+
+        return ResponseEntity.ok(
+                OrderResponse.from(order)
+        );
     }
 
-    // Update order
-    @PutMapping("/update")
-    public Order update(@RequestBody Order order) {
-        return orderService.update(order);
+    @PatchMapping("/{orderId}/cancel")
+    public ResponseEntity<OrderResponse>
+    cancelMyOrder(
+            @PathVariable
+            String orderId,
+
+            Authentication authentication
+    ) {
+        Order order =
+                orderService.cancelCustomerOrder(
+                        getAuthenticatedEmail(
+                                authentication
+                        ),
+                        orderId
+                );
+
+        return ResponseEntity.ok(
+                OrderResponse.from(order)
+        );
     }
 
-    // Delete order
-    @DeleteMapping("/delete/{orderId}")
-    public boolean delete(@PathVariable UUID orderId) {
-        return orderService.delete(orderId);
+    @PreAuthorize(
+            "hasRole('ADMINISTRATOR')"
+    )
+    @GetMapping
+    public ResponseEntity<List<OrderResponse>>
+    getAllOrders(
+            @RequestParam(
+                    required = false
+            )
+            OrderStatus status
+    ) {
+        List<Order> orders =
+                status == null
+                        ? orderService.getAllOrders()
+                        : orderService
+                        .getOrdersByStatus(status);
+
+        List<OrderResponse> responses =
+                orders.stream()
+                        .map(OrderResponse::from)
+                        .toList();
+
+        return ResponseEntity.ok(responses);
+    }
+
+    @PreAuthorize(
+            "hasRole('ADMINISTRATOR')"
+    )
+    @PatchMapping("/{orderId}/status")
+    public ResponseEntity<OrderResponse>
+    updateOrderStatus(
+            @PathVariable
+            String orderId,
+
+            @Valid
+            @RequestBody
+            UpdateOrderStatusRequest request
+    ) {
+        Order order =
+                orderService.updateOrderStatus(
+                        orderId,
+                        request.getOrderStatus()
+                );
+
+        return ResponseEntity.ok(
+                OrderResponse.from(order)
+        );
+    }
+
+    private String getAuthenticatedEmail(
+            Authentication authentication
+    ) {
+        if (authentication == null
+                || !authentication.isAuthenticated()
+                || authentication.getName() == null
+                || authentication.getName().isBlank()) {
+
+            throw new AccessDeniedException(
+                    "Authentication is required"
+            );
+        }
+
+        return authentication
+                .getName()
+                .trim()
+                .toLowerCase();
     }
 }

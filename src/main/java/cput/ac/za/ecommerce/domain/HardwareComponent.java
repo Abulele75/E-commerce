@@ -1,117 +1,101 @@
-/* HardwareComponent.java
-   Entity for Product Catalog Service
-   Author: Nomhle Njengele (216227488)
-   Date: 21 June 2026 */
-
 package cput.ac.za.ecommerce.domain;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.DiscriminatorValue;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "hardware_component")
+@DiscriminatorValue("HARDWARE_COMPONENT")
 public class HardwareComponent extends ProductCatalog {
 
-    private String hardwareCategory;
+    @Enumerated(EnumType.STRING)
+    @Column(
+            name = "component_type",
+            nullable = false,
+            length = 50
+    )
+    private ComponentType componentType;
+
+    @Column(name = "power_requirement_watts")
     private int powerRequirementWatts;
+
+    @Column(
+            name = "component_form_factor",
+            length = 100
+    )
     private String componentFormFactor;
+
+    protected HardwareComponent() {
+    }
 
     private HardwareComponent(Builder builder) {
         super(builder);
-        this.hardwareCategory = builder.hardwareCategory;
-        this.powerRequirementWatts = builder.powerRequirementWatts;
-        this.componentFormFactor = builder.componentFormFactor;
+        this.componentType = builder.componentType;
+        this.powerRequirementWatts =
+                builder.powerRequirementWatts;
+        this.componentFormFactor =
+                builder.componentFormFactor;
     }
 
-    protected HardwareComponent() {}
+    public ComponentType getComponentType() {
+        return componentType;
+    }
 
-    public String getHardwareCategory() { return hardwareCategory; }
-    public int getPowerRequirementWatts() { return powerRequirementWatts; }
-    public String getComponentFormFactor() { return componentFormFactor; }
+    public int getPowerRequirementWatts() {
+        return powerRequirementWatts;
+    }
 
-    public static class Builder extends ProductCatalog.Builder {
-        private String hardwareCategory;
+    public String getComponentFormFactor() {
+        return componentFormFactor;
+    }
+
+    public static class Builder
+            extends ProductCatalog.ProductBuilder<Builder> {
+
+        private ComponentType componentType;
         private int powerRequirementWatts;
         private String componentFormFactor;
 
-        public Builder setHardwareCategory(String hardwareCategory) {
-            this.hardwareCategory = hardwareCategory;
+        public Builder setComponentType(
+                ComponentType componentType
+        ) {
+            this.componentType = componentType;
             return this;
         }
 
-        public Builder setPowerRequirementWatts(int powerRequirementWatts) {
-            this.powerRequirementWatts = powerRequirementWatts;
+        public Builder setPowerRequirementWatts(
+                int powerRequirementWatts
+        ) {
+            this.powerRequirementWatts =
+                    powerRequirementWatts;
             return this;
         }
 
-        public Builder setComponentFormFactor(String componentFormFactor) {
-            this.componentFormFactor = componentFormFactor;
-            return this;
-        }
-
-        @Override
-        public Builder setBrand(Brand brand) {
-            super.setBrand(brand);
-            return this;
-        }
-
-        @Override
-        public Builder setModelName(String modelName) {
-            super.setModelName(modelName);
+        public Builder setComponentFormFactor(
+                String componentFormFactor
+        ) {
+            this.componentFormFactor =
+                    componentFormFactor;
             return this;
         }
 
         @Override
-        public Builder setStandardRetailPrice(double standardRetailPrice) {
-            super.setStandardRetailPrice(standardRetailPrice);
+        protected Builder self() {
             return this;
         }
 
-        @Override
-        public Builder setDescription(String description) {
-            super.setDescription(description);
-            return this;
-        }
-
-        @Override
-        public Builder setImageUrl(String imageUrl) {
-            super.setImageUrl(imageUrl);
-            return this;
-        }
-
-        @Override
-        public Builder setStockQuantity(int stockQuantity) {
-            super.setStockQuantity(stockQuantity);
-            return this;
-        }
-
-        @Override
-        public Builder setColor(String color) {
-            super.setColor(color);
-            return this;
-        }
-
-        @Override
-        public Builder setStorage(String storage) {
-            super.setStorage(storage);
-            return this;
-        }
-
-        @Override
-        public Builder setProductCategory(ProductCategory productCategory) {
-            super.setProductCategory(productCategory);
-            return this;
-        }
-
-        @Override
-        public Builder setPhysicalDimensions(DimensionSpecs physicalDimensions) {
-            super.setPhysicalDimensions(physicalDimensions);
-            return this;
-        }
-
-        @Override
         public HardwareComponent build() {
+            if (componentType == null) {
+                throw new IllegalStateException(
+                        "Component type is required"
+                );
+            }
+
             return new HardwareComponent(this);
         }
     }
 }
-

@@ -1,214 +1,207 @@
-/*
- * PaymentController.java
- * Ngwana Tiyani (231266731)
- * Date: 21 June 2026
- *
- * Controller responsible for handling payment-related HTTP requests.
- */
-
 package cput.ac.za.ecommerce.controller;
 
-import cput.ac.za.ecommerce.domain.BillingLocation;
-import cput.ac.za.ecommerce.domain.CardPayment;
-import cput.ac.za.ecommerce.domain.DigitalWalletPayment;
 import cput.ac.za.ecommerce.domain.Payment;
-import cput.ac.za.ecommerce.factory.PaymentFactory;
+import cput.ac.za.ecommerce.request.CardPaymentRequest;
+import cput.ac.za.ecommerce.request.DigitalWalletPaymentRequest;
+import cput.ac.za.ecommerce.response.PaymentResponse;
 import cput.ac.za.ecommerce.service.IPaymentService;
-
-import org.springframework.beans.factory.annotation.Autowired;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/payment")
+@RequestMapping("/api/payments")
 public class PaymentController {
 
     private final IPaymentService paymentService;
 
-
-    @Autowired
-    public PaymentController(IPaymentService paymentService) {
+    public PaymentController(
+            IPaymentService paymentService
+    ) {
         this.paymentService = paymentService;
     }
 
     @PostMapping("/card")
-    public ResponseEntity<Payment> processCardPayment(
-            @RequestParam String targetOrderId,
-            @RequestParam double totalCapturedAmount,
-            @RequestParam String paymentGatewayReference,
-            @RequestParam String cardBrandType,
-            @RequestBody BillingLocation billingAddress) {
+    public ResponseEntity<PaymentResponse>
+    processCardPayment(
+            @Valid
+            @RequestBody
+            CardPaymentRequest request,
 
-        if (isNullOrBlank(targetOrderId)
-                || totalCapturedAmount <= 0
-                || isNullOrBlank(paymentGatewayReference)
-                || isNullOrBlank(cardBrandType)
-                || billingAddress == null) {
-
-            return ResponseEntity.badRequest().build();
-        }
-
-        CardPayment cardPayment =
-                PaymentFactory.createCardPayment(
-                        targetOrderId,
-                        totalCapturedAmount,
-                        billingAddress,
-                        paymentGatewayReference,
-                        cardBrandType
+            Authentication authentication
+    ) {
+        Payment payment =
+                paymentService.processCardPayment(
+                        getAuthenticatedEmail(
+                                authentication
+                        ),
+                        request
                 );
-
-        if (cardPayment == null) {
-            return ResponseEntity.badRequest().build();
-        }
-
-        Payment savedPayment =
-                paymentService.savePayment(cardPayment);
-
-        if (savedPayment == null) {
-            return ResponseEntity.badRequest().build();
-        }
 
         return ResponseEntity
                 .status(HttpStatus.CREATED)
-                .body(savedPayment);
+                .body(
+                        PaymentResponse.from(
+                                payment
+                        )
+                );
     }
 
     @PostMapping("/wallet")
-    public ResponseEntity<Payment> processDigitalWalletPayment(
-            @RequestParam String targetOrderId,
-            @RequestParam double totalCapturedAmount,
-            @RequestParam String paymentProviderName,
-            @RequestParam String electronicTokenVerification,
-            @RequestBody BillingLocation billingAddress) {
+    public ResponseEntity<PaymentResponse>
+    processWalletPayment(
+            @Valid
+            @RequestBody
+            DigitalWalletPaymentRequest request,
 
-        if (isNullOrBlank(targetOrderId)
-                || totalCapturedAmount <= 0
-                || isNullOrBlank(paymentProviderName)
-                || isNullOrBlank(electronicTokenVerification)
-                || billingAddress == null) {
-
-            return ResponseEntity.badRequest().build();
-        }
-
-        DigitalWalletPayment walletPayment =
-                PaymentFactory.createDigitalWalletPayment(
-                        targetOrderId,
-                        totalCapturedAmount,
-                        billingAddress,
-                        paymentProviderName,
-                        electronicTokenVerification
-                );
-
-        if (walletPayment == null) {
-            return ResponseEntity.badRequest().build();
-        }
-
-        Payment savedPayment =
-                paymentService.savePayment(walletPayment);
-
-        if (savedPayment == null) {
-            return ResponseEntity.badRequest().build();
-        }
+            Authentication authentication
+    ) {
+        Payment payment =
+                paymentService
+                        .processDigitalWalletPayment(
+                                getAuthenticatedEmail(
+                                        authentication
+                                ),
+                                request
+                        );
 
         return ResponseEntity
                 .status(HttpStatus.CREATED)
-                .body(savedPayment);
+                .body(
+                        PaymentResponse.from(
+                                payment
+                        )
+                );
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Payment> getPaymentById(
-            @PathVariable("id") String id) {
+    @GetMapping("/{transactionId}")
+    public ResponseEntity<PaymentResponse>
+    getPayment(
+            @PathVariable
+            String transactionId,
 
-        if (isNullOrBlank(id)) {
-            return ResponseEntity.badRequest().build();
-        }
-
+            Authentication authentication
+    ) {
         Payment payment =
-                paymentService.getPaymentById(id);
+                paymentService
+                        .getPaymentForCustomer(
+                                transactionId,
+                                getAuthenticatedEmail(
+                                        authentication
+                                )
+                        );
 
-        if (payment == null) {
-            return ResponseEntity.notFound().build();
-        }
-
-        return ResponseEntity.ok(payment);
+        return ResponseEntity.ok(
+                PaymentResponse.from(payment)
+        );
     }
 
+    @GetMapping("/order/{orderId}")
+    public ResponseEntity<List<PaymentResponse>>
+    getOrderPayments(
+            @PathVariable
+            String orderId,
+
+            Authentication authentication
+    ) {
+        List<PaymentResponse> responses =
+                paymentService
+                        .getPaymentsForOrder(
+                                orderId,
+                                getAuthenticatedEmail(
+                                        authentication
+                                )
+                        )
+                        .stream()
+                        .map(PaymentResponse::from)
+                        .toList();
+
+        return ResponseEntity.ok(responses);
+    }
+
+    @GetMapping("/my-payments")
+    public ResponseEntity<List<PaymentResponse>>
+    getMyPayments(
+            Authentication authentication
+    ) {
+        List<PaymentResponse> responses =
+                paymentService
+                        .getCustomerPayments(
+                                getAuthenticatedEmail(
+                                        authentication
+                                )
+                        )
+                        .stream()
+                        .map(PaymentResponse::from)
+                        .toList();
+
+        return ResponseEntity.ok(responses);
+    }
+
+    @PreAuthorize(
+            "hasRole('ADMINISTRATOR')"
+    )
     @GetMapping
-    public ResponseEntity<List<Payment>> getAllPayments() {
+    public ResponseEntity<List<PaymentResponse>>
+    getAllPayments() {
+        List<PaymentResponse> responses =
+                paymentService
+                        .getAllPayments()
+                        .stream()
+                        .map(PaymentResponse::from)
+                        .toList();
 
-        List<Payment> payments =
-                paymentService.getAllPayments();
-
-        return ResponseEntity.ok(payments);
+        return ResponseEntity.ok(responses);
     }
 
-    @PutMapping("/card/{id}")
-    public ResponseEntity<Payment> updateCardPayment(
-            @PathVariable("id") String id,
-            @RequestBody CardPayment payment) {
+    @PreAuthorize(
+            "hasRole('ADMINISTRATOR')"
+    )
+    @PostMapping("/{transactionId}/refund")
+    public ResponseEntity<PaymentResponse>
+    refundPayment(
+            @PathVariable
+            String transactionId
+    ) {
+        Payment refundedPayment =
+                paymentService.refundPayment(
+                        transactionId
+                );
 
-        return updateExistingPayment(id, payment);
+        return ResponseEntity.ok(
+                PaymentResponse.from(
+                        refundedPayment
+                )
+        );
     }
 
-    @PutMapping("/wallet/{id}")
-    public ResponseEntity<Payment> updateWalletPayment(
-            @PathVariable("id") String id,
-            @RequestBody DigitalWalletPayment payment) {
+    private String getAuthenticatedEmail(
+            Authentication authentication
+    ) {
+        if (authentication == null
+                || !authentication
+                .isAuthenticated()
+                || authentication.getName()
+                == null
+                || authentication.getName()
+                .isBlank()) {
 
-        return updateExistingPayment(id, payment);
-    }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletePayment(
-            @PathVariable("id") String id) {
-
-        if (isNullOrBlank(id)) {
-            return ResponseEntity.badRequest().build();
+            throw new org.springframework
+                    .security
+                    .access
+                    .AccessDeniedException(
+                    "Authentication is required"
+            );
         }
 
-        Payment existingPayment =
-                paymentService.getPaymentById(id);
-
-        if (existingPayment == null) {
-            return ResponseEntity.notFound().build();
-        }
-
-        paymentService.deletePayment(id);
-
-        return ResponseEntity.noContent().build();
-    }
-
-
-    private ResponseEntity<Payment> updateExistingPayment(
-            String id,
-            Payment payment) {
-
-        if (isNullOrBlank(id)
-                || payment == null
-                || isNullOrBlank(payment.getTransactionId())) {
-
-            return ResponseEntity.badRequest().build();
-        }
-
-
-        if (!id.equals(payment.getTransactionId())) {
-            return ResponseEntity.badRequest().build();
-        }
-
-        Payment updatedPayment =
-                paymentService.updatePayment(payment);
-
-        if (updatedPayment == null) {
-            return ResponseEntity.notFound().build();
-        }
-
-        return ResponseEntity.ok(updatedPayment);
-    }
-
-    private boolean isNullOrBlank(String value) {
-        return value == null || value.trim().isEmpty();
+        return authentication
+                .getName()
+                .trim()
+                .toLowerCase();
     }
 }

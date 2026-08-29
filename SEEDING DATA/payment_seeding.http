@@ -1,0 +1,49 @@
+@customerToken = PASTE_CUSTOMER_JWT_HERE
+@cardOrderId = PASTE_PENDING_CARD_ORDER_ID_HERE
+@walletOrderId = PASTE_DIFFERENT_PENDING_WALLET_ORDER_ID_HERE
+
+# Each successful payment requires a different PENDING_PAYMENT order owned by this customer.
+### SEED SUCCESSFUL CARD PAYMENT
+POST http://localhost:8081/api/payments/card
+Content-Type: application/json
+Authorization: Bearer {{customerToken}}
+
+{
+  "orderId": "{{cardOrderId}}",
+  "billingLocation": {
+    "billingName": "Tiyani Baloyi",
+    "streetAddress": "12 Long Street",
+    "suburb": "Cape Town City Centre",
+    "city": "Cape Town",
+    "province": "Western Cape",
+    "postalCode": "8001",
+    "country": "South Africa"
+  },
+  "paymentToken": "TEST-CARD-TOKEN-0001",
+  "cardBrand": "VISA",
+  "cardholderName": "Tiyani Baloyi",
+  "cardLastFourDigits": "4242"
+}
+
+### SEED SUCCESSFUL DIGITAL WALLET PAYMENT
+POST http://localhost:8081/api/payments/wallet
+Content-Type: application/json
+Authorization: Bearer {{customerToken}}
+
+{
+  "orderId": "{{walletOrderId}}",
+  "billingLocation": {
+    "billingName": "Tiyani Baloyi",
+    "streetAddress": "12 Long Street",
+    "suburb": "Cape Town City Centre",
+    "city": "Cape Town",
+    "province": "Western Cape",
+    "postalCode": "8001",
+    "country": "South Africa"
+  },
+  "walletProvider": "PAYPAL",
+  "walletToken": "TEST-WALLET-TOKEN-0001"
+}
+
+# Copy a successfully paid ORD-* orderId into delivery_seeding.http.
+# Do not use the same order for both requests; a successful payment changes its status to PAID.

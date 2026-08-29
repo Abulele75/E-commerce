@@ -1,18 +1,114 @@
-/* Brand.java
-   Enum for Product Brands
-   Author: Nomhle Njengele (216227488)
-   Date: 17 August 2026 */
-
 package cput.ac.za.ecommerce.domain;
 
+
 public enum Brand {
-    SAMSUNG,
-    APPLE,
-    LENOVO,
-    CORSAIR,
-    MSI,
-    ASUS,
-    HUAWEI,
-    DELL,
-    NVIDIA
+
+
+    APPLE(
+            "Apple"
+    ),
+
+
+    SAMSUNG(
+            "Samsung"
+    ),
+
+
+    HUAWEI(
+            "Huawei"
+    ),
+
+
+    HONOR(
+            "HONOR"
+    ),
+
+
+    LENOVO(
+            "Lenovo"
+    ),
+
+
+    LEGION(
+            "Legion"
+    ),
+
+
+    MSI(
+            "MSI"
+    ),
+
+
+    ASUS(
+            "ASUS"
+    ),
+
+
+    VICTUS(
+            "Victus"
+    ),
+
+
+    REDRAGON(
+            "Redragon"
+    ),
+
+
+    LOGITECH(
+            "Logitech"
+    ),
+
+
+    NVIDIA(
+            "NVIDIA"
+    ),
+
+
+    CORSAIR(
+            "Corsair"
+    ),
+
+
+    MICROSOFT(
+            "Microsoft"
+    ),
+
+
+    PLAYSTATION(
+            "PlayStation"
+    ),
+
+
+    DELL(
+            "Dell"
+    ),
+
+
+    OTHER(
+            "Other"
+    );
+
+
+
+    private final String displayName;
+
+
+
+    Brand(
+            String displayName
+    ) {
+
+        this.displayName = displayName;
+
+    }
+
+
+
+    public String getDisplayName() {
+
+        return displayName;
+
+    }
+
+
 }

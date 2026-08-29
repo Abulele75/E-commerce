@@ -1,28 +1,38 @@
 package cput.ac.za.ecommerce.service;
 
-/*
-   IUserManagementService.java
-   Owenkosi Nxasana (230240887)
-   Date: 10 August 2026
- */
-
-import cput.ac.za.ecommerce.domain.AccountProfile;
-import cput.ac.za.ecommerce.domain.Administrator;
 import cput.ac.za.ecommerce.domain.Customer;
 import cput.ac.za.ecommerce.domain.User;
+import cput.ac.za.ecommerce.request.RegisterRequest;
+import cput.ac.za.ecommerce.request.UpdateProfileRequest;
 
 import java.util.List;
 
 public interface IUserManagementService {
-    Customer registerCustomer(AccountProfile profile, String customerNumber);
 
-    Administrator registerAdministrator(AccountProfile profile, String employeeNumber, String department);
+    Customer registerCustomer(
+            RegisterRequest request
+    );
 
-    User getUser(String userId);
+    User getUserByEmail(
+            String email
+    );
 
-    List<User> listUsers();
+    User updateCurrentProfile(
+            String email,
+            UpdateProfileRequest request
+    );
 
-    User updateProfile(String userId, AccountProfile profile);
+    User deactivateCurrentAccount(
+            String email
+    );
 
-    void removeUser(String userId);
+    List<User> getAllUsers();
+
+    User activateUser(
+            String userId
+    );
+
+    User deactivateUser(
+            String userId
+    );
 }

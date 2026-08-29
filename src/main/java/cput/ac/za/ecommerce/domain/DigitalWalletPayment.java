@@ -6,62 +6,94 @@
 
 package cput.ac.za.ecommerce.domain;
 
-import jakarta.persistence.DiscriminatorValue;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "digital_wallet_payment")
-@DiscriminatorValue("DIGITAL_WALLET")
-public class DigitalWalletPayment extends Payment {
+@PrimaryKeyJoinColumn(
+        name = "transaction_id"
+)
+public class DigitalWalletPayment
+        extends Payment {
 
-    private String paymentProviderName;
-    private String electronicTokenVerification;
+    @Enumerated(EnumType.STRING)
+    @Column(
+            name = "wallet_provider",
+            nullable = false,
+            length = 30
+    )
+    private WalletProvider walletProvider;
 
+    @Column(
+            name = "provider_transaction_reference",
+            nullable = false,
+            unique = true,
+            length = 100
+    )
+    private String providerTransactionReference;
 
-    protected DigitalWalletPayment() {}
-
-    public String getPaymentProviderName() {
-        return paymentProviderName;
+    protected DigitalWalletPayment() {
     }
 
-    public String getElectronicTokenVerification() {
-        return electronicTokenVerification;
-    }
-
-    @Override
-    public String toString() {
-        return "DigitalWalletPayment{" +
-                super.toString() + // Pulls in transactionId, targetOrderId, amount, timestamp, address
-                ", paymentProviderName='" + paymentProviderName + '\'' +
-                ", electronicTokenVerification='" + electronicTokenVerification + '\'' +
-                '}';
-    }
-
-
-    private DigitalWalletPayment(Builder builder) {
+    private DigitalWalletPayment(
+            Builder builder
+    ) {
         super(builder);
-        this.paymentProviderName = builder.paymentProviderName;
-        this.electronicTokenVerification = builder.electronicTokenVerification;
+
+        this.walletProvider =
+                builder.walletProvider;
+
+        this.providerTransactionReference =
+                builder.providerTransactionReference;
     }
 
+    public WalletProvider getWalletProvider() {
+        return walletProvider;
+    }
 
-    public static class Builder extends Payment.Builder {
+    public String
+    getProviderTransactionReference() {
+        return providerTransactionReference;
+    }
 
-        private String paymentProviderName;
-        private String electronicTokenVerification;
+    public static class Builder
+            extends PaymentBuilder<Builder> {
 
-        public Builder paymentProviderName(String paymentProviderName) {
-            this.paymentProviderName = paymentProviderName;
+        private WalletProvider walletProvider;
+
+        private String
+                providerTransactionReference;
+
+        public Builder() {
+            setPaymentMethod(
+                    PaymentMethod.DIGITAL_WALLET
+            );
+        }
+
+        public Builder setWalletProvider(
+                WalletProvider walletProvider
+        ) {
+            this.walletProvider =
+                    walletProvider;
+
             return this;
         }
 
-        public Builder electronicTokenVerification(String electronicTokenVerification) {
-            this.electronicTokenVerification = electronicTokenVerification;
+        public Builder
+        setProviderTransactionReference(
+                String providerTransactionReference
+        ) {
+            this.providerTransactionReference =
+                    providerTransactionReference;
+
             return this;
         }
 
         @Override
+        protected Builder self() {
+            return this;
+        }
+
         public DigitalWalletPayment build() {
             return new DigitalWalletPayment(this);
         }

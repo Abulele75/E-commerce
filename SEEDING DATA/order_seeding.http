@@ -1,0 +1,32 @@
+@customerToken = PASTE_CUSTOMER_JWT_HERE
+@productId = PASTE_CREATED_PRODUCT_ID_HERE
+
+# Run product_seeding.http first, then paste one returned PRD-* ID above.
+### ADD PRODUCT TO ACTIVE CART
+POST http://localhost:8081/api/cart/items
+Content-Type: application/json
+Authorization: Bearer {{customerToken}}
+
+{
+  "productId": "{{productId}}",
+  "quantity": 1
+}
+
+### CHECKOUT ACTIVE CART
+POST http://localhost:8081/api/orders/checkout
+Content-Type: application/json
+Authorization: Bearer {{customerToken}}
+
+{
+  "recipientName": "Tiyani Baloyi",
+  "recipientPhone": "0711073494",
+  "streetAddress": "12 Long Street",
+  "suburb": "Cape Town City Centre",
+  "city": "Cape Town",
+  "province": "Western Cape",
+  "postalCode": "8001",
+  "country": "South Africa",
+  "deliveryInstructions": "Call the recipient when arriving at the entrance."
+}
+
+# Copy the returned ORD-* orderId into payment_seeding.http.

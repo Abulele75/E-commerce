@@ -1,45 +1,110 @@
-/* PreBuiltSystemFactory.java
-   Factory class for PreBuiltSystem
-   Author: Nomhle Njengele (216227488)
-   Date: 27 June 2026 */
-
 package cput.ac.za.ecommerce.factory;
 
-import cput.ac.za.ecommerce.domain.*;
+import cput.ac.za.ecommerce.domain.DimensionSpecs;
+import cput.ac.za.ecommerce.domain.PreBuiltSystem;
+import cput.ac.za.ecommerce.domain.ProductCategory;
+import cput.ac.za.ecommerce.request.ProductCatalogRequest;
 
-public class PreBuiltSystemFactory {
+public final class PreBuiltSystemFactory {
+
+    private PreBuiltSystemFactory() {
+    }
 
     public static PreBuiltSystem createPreBuiltSystem(
             String productId,
-            Brand brand,
-            String modelName,
-            double standardRetailPrice,
-            String description,
-            String imageUrl,
-            int stockQuantity,
-            String color,
-            String storage,
-            ProductCategory productCategory,
-            DimensionSpecs physicalDimensions,
-            String systemTierClassification,
-            int warrantyPeriodMonths,
-            boolean isLiquidCooled) {
+            ProductCatalogRequest request,
+            DimensionSpecs dimensions
+    ) {
+        if (productId == null
+                || productId.isBlank()
+                || request == null
+                || (
+                request.getCategory()
+                        != ProductCategory.LAPTOPS
+                        && request.getCategory()
+                        != ProductCategory.DESKTOP_COMPUTERS
+        )) {
+            return null;
+        }
 
-        return (PreBuiltSystem) new PreBuiltSystem.Builder()
-                .setSystemTierClassification(systemTierClassification)
-                .setWarrantyPeriodMonths(warrantyPeriodMonths)
-                .setIsLiquidCooled(isLiquidCooled)
+        return new PreBuiltSystem.Builder()
                 .setProductId(productId)
-                .setBrand(brand)
-                .setModelName(modelName)
-                .setStandardRetailPrice(standardRetailPrice)
-                .setDescription(description)
-                .setImageUrl(imageUrl)
-                .setStockQuantity(stockQuantity)
-                .setColor(color)
-                .setStorage(storage)
-                .setProductCategory(productCategory)
-                .setPhysicalDimensions(physicalDimensions)
+                .setSku(request.getSku().trim())
+                .setProductName(
+                        request.getProductName().trim()
+                )
+                .setDescription(
+                        trimToNull(
+                                request.getDescription()
+                        )
+                )
+                .setBrand(request.getBrand())
+                .setCategory(request.getCategory())
+                .setPrice(request.getPrice())
+                .setDiscountPrice(
+                        request.getDiscountPrice()
+                )
+                .setStockQuantity(
+                        request.getStockQuantity()
+                )
+                .setPrimaryImageUrl(
+                        trimToNull(
+                                request.getPrimaryImageUrl()
+                        )
+                )
+                .setSecondaryImageUrl(
+                        trimToNull(
+                                request.getSecondaryImageUrl()
+                        )
+                )
+                .setColour(
+                        trimToNull(request.getColour())
+                )
+                .setStorage(
+                        trimToNull(request.getStorage())
+                )
+                .setMemory(
+                        trimToNull(request.getMemory())
+                )
+                .setProcessor(
+                        trimToNull(request.getProcessor())
+                )
+                .setSpecifications(
+                        trimToNull(
+                                request.getSpecifications()
+                        )
+                )
+                .setFeatured(request.isFeatured())
+                .setActive(true)
+                .setPhysicalDimensions(dimensions)
+                .setGraphicsCard(
+                        trimToNull(
+                                request.getGraphicsCard()
+                        )
+                )
+                .setOperatingSystem(
+                        trimToNull(
+                                request.getOperatingSystem()
+                        )
+                )
+                .setWarrantyPeriodMonths(
+                        request.getWarrantyPeriodMonths()
+                                == null
+                                ? 12
+                                : request
+                                .getWarrantyPeriodMonths()
+                )
+                .setLiquidCooled(
+                        request.isLiquidCooled()
+                )
                 .build();
+    }
+
+    private static String trimToNull(
+            String value
+    ) {
+        return value == null || value.isBlank()
+                ? null
+                : value.trim();
     }
 }
