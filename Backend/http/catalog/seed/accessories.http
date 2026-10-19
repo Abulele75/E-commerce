@@ -1,0 +1,158 @@
+@baseUrl = http://localhost:8081/api
+
+@adminAuthToken = PASTE_ADMIN_AUTH_TOKEN_HERE
+
+### Redragon Surara Mechanical RGB Gaming Keyboard - Black
+POST {{baseUrl}}/productcatalog
+Content-Type: application/json
+Authorization: Bearer {{adminAuthToken}}
+
+{
+  "sku": "ACC-KB-REDRAGON-SURARA",
+  "productName": "Redragon Surara Mechanical RGB Gaming Keyboard - Black",
+  "description": "Full-size mechanical RGB gaming keyboard.",
+  "brand": "REDRAGON",
+  "category": "ACCESSORIES",
+  "price": 799.00,
+  "stockQuantity": 40,
+  "primaryImageUrl": "/images/products/accessories/redragon-surara-keyboard.jpg",
+  "colour": "Black"
+}
+
+### Redragon Pollux Mechanical Wired Gaming Keyboard
+POST {{baseUrl}}/productcatalog
+Content-Type: application/json
+Authorization: Bearer {{adminAuthToken}}
+
+{
+  "sku": "ACC-KB-REDRAGON-POLLUX",
+  "productName": "Redragon Mechanical Pollux Wired Gaming Keyboard",
+  "description": "Compact wired mechanical gaming keyboard.",
+  "brand": "REDRAGON",
+  "category": "ACCESSORIES",
+  "price": 899.00,
+  "stockQuantity": 35,
+  "primaryImageUrl": "/images/products/accessories/redragon-mechanical-keyboard.jpg",
+  "colour": "Black"
+}
+
+### Logitech G413 SE Mechanical Gaming Keyboard
+POST {{baseUrl}}/productcatalog
+Content-Type: application/json
+Authorization: Bearer {{adminAuthToken}}
+
+{
+  "sku": "ACC-KB-LOGI-G413SE",
+  "productName": "Logitech G413 SE Mechanical Gaming Keyboard",
+  "description": "Durable full-size mechanical gaming keyboard.",
+  "brand": "LOGITECH",
+  "category": "ACCESSORIES",
+  "price": 999.00,
+  "stockQuantity": 30,
+  "primaryImageUrl": "/images/products/accessories/logitech-g413-se.jpg",
+  "colour": "Black"
+}
+
+### Logitech G413 TKL SE Mechanical Gaming Keyboard
+POST {{baseUrl}}/productcatalog
+Content-Type: application/json
+Authorization: Bearer {{adminAuthToken}}
+
+{
+  "sku": "ACC-KB-LOGI-G413TKLSE",
+  "productName": "Logitech G413 TKL SE Mechanical Gaming Keyboard",
+  "description": "Tenkeyless mechanical gaming keyboard.",
+  "brand": "LOGITECH",
+  "category": "ACCESSORIES",
+  "price": 1099.00,
+  "stockQuantity": 28,
+  "primaryImageUrl": "/images/products/accessories/logitech-g413.jpg",
+  "colour": "Black"
+}
+
+### Logitech LIGHTFORCE G502 X Wired Gaming Mouse White
+POST {{baseUrl}}/productcatalog
+Content-Type: application/json
+Authorization: Bearer {{adminAuthToken}}
+
+{
+  "sku": "ACC-MOUSE-LOGI-G502X",
+  "productName": "Logitech LIGHTFORCE G502 X Wired Gaming Mouse White",
+  "description": "High-precision wired gaming mouse.",
+  "brand": "LOGITECH",
+  "category": "ACCESSORIES",
+  "price": 1299.00,
+  "stockQuantity": 30,
+  "primaryImageUrl": "/images/products/accessories/logitech-g502-x.jpg",
+  "colour": "White"
+}
+
+### Logitech G502 HERO Wired Gaming Mouse
+POST {{baseUrl}}/productcatalog
+Content-Type: application/json
+Authorization: Bearer {{adminAuthToken}}
+
+{
+  "sku": "ACC-MOUSE-LOGI-G502HERO",
+  "productName": "Logitech G502 HERO Wired Gaming Mouse",
+  "description": "Classic high-performance wired gaming mouse.",
+  "brand": "LOGITECH",
+  "category": "ACCESSORIES",
+  "price": 899.00,
+  "stockQuantity": 32,
+  "primaryImageUrl": "/images/products/accessories/logitech-g502.jpg",
+  "colour": "Black"
+}
+
+### PlayStation 5 DualSense Edge Wireless Controller
+POST {{baseUrl}}/productcatalog
+Content-Type: application/json
+Authorization: Bearer {{adminAuthToken}}
+
+{
+  "sku": "ACC-CTRL-PS5-EDGE",
+  "productName": "PlayStation 5 DualSense Edge Wireless Controller",
+  "description": "Pro wireless controller with customisable controls.",
+  "brand": "PLAYSTATION",
+  "category": "ACCESSORIES",
+  "price": 3499.00,
+  "stockQuantity": 20,
+  "primaryImageUrl": "/images/products/accessories/playstation-5-controller.jpg",
+  "colour": "White"
+}
+
+### Xbox Wireless Controller with Play & Charge Kit
+POST {{baseUrl}}/productcatalog
+Content-Type: application/json
+Authorization: Bearer {{adminAuthToken}}
+
+{
+  "sku": "ACC-CTRL-XBOX-PC",
+  "productName": "Xbox Wireless Controller with Play & Charge Kit",
+  "description": "Wireless Xbox controller with rechargeable battery.",
+  "brand": "MICROSOFT",
+  "category": "ACCESSORIES",
+  "price": 1499.00,
+  "stockQuantity": 22,
+  "primaryImageUrl": "/images/products/accessories/xbox-controller.jpg",
+  "colour": "Black"
+}
+
+### IncredibleTech Audio Essentials Bundle
+POST {{baseUrl}}/productcatalog
+Content-Type: application/json
+Authorization: Bearer {{adminAuthToken}}
+
+{
+  "sku": "INC-AUDIO-BUNDLE-01",
+  "productName": "IncredibleTech Audio Essentials Bundle",
+  "description": "IncredibleTech over-ear headphones and wireless earbuds bundle.",
+  "brand": "INCREDIBLE_TECH",
+  "category": "ACCESSORIES",
+  "price": 2499.00,
+  "stockQuantity": 20,
+  "primaryImageUrl": "/images/products/accessories/incredible-tech-audio.png",
+  "colour": "Black",
+  "specifications": "Over-ear headphones, wireless earbuds and charging case",
+  "featured": true
+}

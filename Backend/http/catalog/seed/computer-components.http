@@ -1,0 +1,101 @@
+@baseUrl = http://localhost:8081/api
+
+# Requires ../../auth.http administrator login first.
+
+@adminAuthToken = PASTE_ADMIN_AUTH_TOKEN_HERE
+
+### NVIDIA GeForce RTX 5060 GPU
+POST {{baseUrl}}/productcatalog
+Content-Type: application/json
+Authorization: Bearer {{adminAuthToken}}
+
+{
+  "sku": "COMP-GPU-RTX5060",
+  "productName": "NVIDIA GeForce RTX 5060 GPU",
+  "description": "Mid-range graphics card for 1080p/1440p gaming.",
+  "brand": "NVIDIA",
+  "category": "COMPUTER_COMPONENTS",
+  "componentType": "GRAPHICS_CARD",
+  "price": 8999.00,
+  "stockQuantity": 15,
+  "primaryImageUrl": "/images/products/components/nvidia-rtx-5060.png",
+  "powerRequirementWatts": 550,
+  "componentFormFactor": "Dual-slot"
+}
+
+### NVIDIA GeForce RTX 3050 GPU
+POST {{baseUrl}}/productcatalog
+Content-Type: application/json
+Authorization: Bearer {{adminAuthToken}}
+
+{
+  "sku": "COMP-GPU-RTX3050",
+  "productName": "NVIDIA GeForce RTX 3050 GPU",
+  "description": "Entry-level graphics card for 1080p gaming.",
+  "brand": "NVIDIA",
+  "category": "COMPUTER_COMPONENTS",
+  "componentType": "GRAPHICS_CARD",
+  "price": 4999.00,
+  "stockQuantity": 18,
+  "primaryImageUrl": "/images/products/components/nvidia-rtx-3050.png",
+  "powerRequirementWatts": 450,
+  "componentFormFactor": "Dual-slot"
+}
+
+### NVIDIA GeForce RTX 5070 GPU
+POST {{baseUrl}}/productcatalog
+Content-Type: application/json
+Authorization: Bearer {{adminAuthToken}}
+
+{
+  "sku": "COMP-GPU-RTX5070",
+  "productName": "NVIDIA GeForce RTX 5070 GPU",
+  "description": "High-performance graphics card for 1440p/4K gaming.",
+  "brand": "NVIDIA",
+  "category": "COMPUTER_COMPONENTS",
+  "componentType": "GRAPHICS_CARD",
+  "price": 13999.00,
+  "stockQuantity": 12,
+  "primaryImageUrl": "/images/products/components/nvidia-rtx-5070.png",
+  "powerRequirementWatts": 650,
+  "componentFormFactor": "Triple-slot",
+  "featured": true
+}
+
+### Corsair Vengeance 32GB DDR4 RAM
+POST {{baseUrl}}/productcatalog
+Content-Type: application/json
+Authorization: Bearer {{adminAuthToken}}
+
+{
+  "sku": "COMP-RAM-CORSAIR-32GB",
+  "productName": "Corsair Vengeance 32GB DDR4 RAM",
+  "description": "32GB DDR4 memory kit for gaming and productivity.",
+  "brand": "CORSAIR",
+  "category": "COMPUTER_COMPONENTS",
+  "componentType": "MEMORY",
+  "price": 1499.00,
+  "stockQuantity": 40,
+  "primaryImageUrl": "/images/products/components/corsair-vengeance-ddr4-32gb.png",
+  "memory": "32GB DDR4",
+  "componentFormFactor": "DIMM"
+}
+
+### Corsair Vengeance 48GB DDR5 RAM
+POST {{baseUrl}}/productcatalog
+Content-Type: application/json
+Authorization: Bearer {{adminAuthToken}}
+
+{
+  "sku": "COMP-RAM-CORSAIR-48GB",
+  "productName": "Corsair Vengeance 48GB DDR5 RAM",
+  "description": "48GB DDR5 memory kit for high-end builds.",
+  "brand": "CORSAIR",
+  "category": "COMPUTER_COMPONENTS",
+  "componentType": "MEMORY",
+  "price": 2799.00,
+  "stockQuantity": 30,
+  "primaryImageUrl": "/images/products/components/corsair-vengeance-ddr5-48gb.png",
+  "memory": "48GB DDR5",
+  "componentFormFactor": "DIMM"
+}

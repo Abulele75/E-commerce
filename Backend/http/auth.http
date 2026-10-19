@@ -1,0 +1,36 @@
+@baseUrl = http://localhost:8081/api
+
+### Register sample customer (optional; duplicate email/phone is rejected)
+POST {{baseUrl}}/users/register
+Content-Type: application/json
+
+{
+  "firstName": "Sample",
+  "lastName": "Customer",
+  "email": "{{customerEmail}}",
+  "phoneNumber": "0821234567",
+  "password": "{{customerPassword}}",
+  "confirmPassword": "{{customerPassword}}"
+}
+
+### Login customer and capture {{customerAuthToken}}
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{
+  "email": "{{customerEmail}}",
+  "password": "{{customerPassword}}"
+}
+
+> {% client.global.set("customerAuthToken", response.body.token); %}
+
+### Login administrator and capture {{adminAuthToken}}
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{
+  "email": "{{adminEmail}}",
+  "password": "{{adminPassword}}"
+}
+
+> {% client.global.set("adminAuthToken", response.body.token); %}

@@ -1,0 +1,312 @@
+@baseUrl = http://localhost:8081/api
+
+# Requires ../../auth.http administrator login first.
+
+@adminAuthToken = PASTE_ADMIN_AUTH_TOKEN_HERE
+
+### Apple iPhone 11 64GB
+POST {{baseUrl}}/productcatalog
+Content-Type: application/json
+Authorization: Bearer {{adminAuthToken}}
+
+{
+  "sku": "IPHONE11",
+  "productName": "IPHONE 11 64GB",
+  "description": "Beauty and power at once.",
+  "brand": "APPLE",
+  "category": "SMARTPHONES",
+  "price": 10999.00,
+  "stockQuantity": 5,
+  "primaryImageUrl": "/images/products/smartphones/Iphone11.png",
+  "colour": "Titanium black"
+}
+
+### Apple iPhone 17 Pro 256GB
+POST {{baseUrl}}/productcatalog
+Content-Type: application/json
+Authorization: Bearer {{adminAuthToken}}
+
+{
+  "sku": "PHONE-APPLE-IP17PRO",
+  "productName": "Apple iPhone 17 Pro 256GB",
+  "description": "Flagship iPhone with pro camera system.",
+  "brand": "APPLE",
+  "category": "SMARTPHONES",
+  "price": 24999.00,
+  "stockQuantity": 15,
+  "primaryImageUrl": "/images/products/smartphones/iphone-17-pro.png",
+  "storage": "256GB",
+  "colour": "Titanium",
+  "featured": true
+}
+
+### Apple iPhone 16
+POST {{baseUrl}}/productcatalog
+Content-Type: application/json
+Authorization: Bearer {{adminAuthToken}}
+
+{
+  "sku": "PHONE-APPLE-IP16",
+  "productName": "Apple iPhone 16",
+  "description": "Everyday iPhone with great performance.",
+  "brand": "APPLE",
+  "category": "SMARTPHONES",
+  "price": 16999.00,
+  "stockQuantity": 20,
+  "primaryImageUrl": "/images/products/smartphones/iphone-16.png",
+  "storage": "128GB",
+  "colour": "Blue"
+}
+
+### Apple iPhone 15 Pro
+POST {{baseUrl}}/productcatalog
+Content-Type: application/json
+Authorization: Bearer {{adminAuthToken}}
+
+{
+  "sku": "PHONE-APPLE-IP15PRO",
+  "productName": "Apple iPhone 15 Pro",
+  "description": "Pro iPhone with titanium design.",
+  "brand": "APPLE",
+  "category": "SMARTPHONES",
+  "price": 18999.00,
+  "stockQuantity": 16,
+  "primaryImageUrl": "/images/products/smartphones/iphone-15-pro.png",
+  "storage": "256GB",
+  "colour": "Natural Titanium"
+}
+
+### Apple iPhone 14
+POST {{baseUrl}}/productcatalog
+Content-Type: application/json
+Authorization: Bearer {{adminAuthToken}}
+
+{
+  "sku": "PHONE-APPLE-IP14",
+  "productName": "Apple iPhone 14",
+  "description": "Reliable iPhone with all-day battery.",
+  "brand": "APPLE",
+  "category": "SMARTPHONES",
+  "price": 11999.00,
+  "stockQuantity": 24,
+  "primaryImageUrl": "/images/products/smartphones/iphone-14.png",
+  "storage": "128GB",
+  "colour": "Midnight"
+}
+
+### Samsung Galaxy S26 Ultra
+POST {{baseUrl}}/productcatalog
+Content-Type: application/json
+Authorization: Bearer {{adminAuthToken}}
+
+{
+  "sku": "PHONE-SAMSUNG-S26U",
+  "productName": "Samsung Galaxy S26 Ultra",
+  "description": "Ultra flagship with S Pen and pro cameras.",
+  "brand": "SAMSUNG",
+  "category": "SMARTPHONES",
+  "price": 26999.00,
+  "stockQuantity": 14,
+  "primaryImageUrl": "/images/products/smartphones/samsung-s26-ultra.png",
+  "storage": "512GB",
+  "colour": "Phantom Black",
+  "featured": true
+}
+
+### Samsung Galaxy S26+
+POST {{baseUrl}}/productcatalog
+Content-Type: application/json
+Authorization: Bearer {{adminAuthToken}}
+
+{
+  "sku": "PHONE-SAMSUNG-S26PLUS",
+  "productName": "Samsung Galaxy S26+",
+  "description": "Large-screen flagship with fast charging.",
+  "brand": "SAMSUNG",
+  "category": "SMARTPHONES",
+  "price": 21999.00,
+  "stockQuantity": 18,
+  "primaryImageUrl": "/images/products/smartphones/samsung-s26-plus.png",
+  "storage": "256GB",
+  "colour": "Silver"
+}
+
+### Samsung Galaxy Z Fold 7
+POST {{baseUrl}}/productcatalog
+Content-Type: application/json
+Authorization: Bearer {{adminAuthToken}}
+
+{
+  "sku": "PHONE-SAMSUNG-ZFOLD7",
+  "productName": "Samsung Galaxy Z Fold 7",
+  "description": "Foldable phone with a tablet-sized display.",
+  "brand": "SAMSUNG",
+  "category": "SMARTPHONES",
+  "price": 33999.00,
+  "stockQuantity": 10,
+  "primaryImageUrl": "/images/products/smartphones/samsung-z-fold-7.png",
+  "storage": "512GB",
+  "colour": "Phantom Black"
+}
+
+### Samsung Galaxy Z Flip
+POST {{baseUrl}}/productcatalog
+Content-Type: application/json
+Authorization: Bearer {{adminAuthToken}}
+
+{
+  "sku": "PHONE-SAMSUNG-ZFLIP",
+  "productName": "Samsung Galaxy Z Flip",
+  "description": "Compact foldable phone with a pocketable design.",
+  "brand": "SAMSUNG",
+  "category": "SMARTPHONES",
+  "price": 18999.00,
+  "stockQuantity": 16,
+  "primaryImageUrl": "/images/products/smartphones/samsung-z-flip.png",
+  "storage": "256GB",
+  "colour": "Lavender"
+}
+
+### Huawei Nova 15 Pro
+POST {{baseUrl}}/productcatalog
+Content-Type: application/json
+Authorization: Bearer {{adminAuthToken}}
+
+{
+  "sku": "PHONE-HUAWEI-NOVA15PRO",
+  "productName": "Huawei Nova 15 Pro",
+  "description": "Stylish mid-range phone with a strong camera.",
+  "brand": "HUAWEI",
+  "category": "SMARTPHONES",
+  "price": 12999.00,
+  "stockQuantity": 18,
+  "primaryImageUrl": "/images/products/smartphones/huawei-nova-15-pro.png",
+  "storage": "256GB",
+  "colour": "Green"
+}
+
+### Huawei Nova 15
+POST {{baseUrl}}/productcatalog
+Content-Type: application/json
+Authorization: Bearer {{adminAuthToken}}
+
+{
+  "sku": "PHONE-HUAWEI-NOVA15",
+  "productName": "Huawei Nova 15",
+  "description": "Everyday phone with sleek design.",
+  "brand": "HUAWEI",
+  "category": "SMARTPHONES",
+  "price": 9999.00,
+  "stockQuantity": 22,
+  "primaryImageUrl": "/images/products/smartphones/huawei-nova-15.png",
+  "storage": "128GB",
+  "colour": "Black"
+}
+
+### Huawei Mate 80 Pro
+POST {{baseUrl}}/productcatalog
+Content-Type: application/json
+Authorization: Bearer {{adminAuthToken}}
+
+{
+  "sku": "PHONE-HUAWEI-MATE80PRO",
+  "productName": "Huawei Mate 80 Pro",
+  "description": "Premium flagship with pro imaging.",
+  "brand": "HUAWEI",
+  "category": "SMARTPHONES",
+  "price": 22999.00,
+  "stockQuantity": 12,
+  "primaryImageUrl": "/images/products/smartphones/huawei-mate-80-pro.png",
+  "storage": "512GB",
+  "colour": "Black"
+}
+
+### Huawei Pura 90 Pro
+POST {{baseUrl}}/productcatalog
+Content-Type: application/json
+Authorization: Bearer {{adminAuthToken}}
+
+{
+  "sku": "PHONE-HUAWEI-PURA90PRO",
+  "productName": "Huawei Pura 90 Pro",
+  "description": "Photography-focused flagship smartphone.",
+  "brand": "HUAWEI",
+  "category": "SMARTPHONES",
+  "price": 24999.00,
+  "stockQuantity": 11,
+  "primaryImageUrl": "/images/products/smartphones/huawei-pura-90-pro.png",
+  "storage": "512GB",
+  "colour": "Gold"
+}
+
+### Honor 600
+POST {{baseUrl}}/productcatalog
+Content-Type: application/json
+Authorization: Bearer {{adminAuthToken}}
+
+{
+  "sku": "PHONE-HONOR-600",
+  "productName": "Honor 600",
+  "description": "Balanced smartphone with a big battery.",
+  "brand": "HONOR",
+  "category": "SMARTPHONES",
+  "price": 7999.00,
+  "stockQuantity": 25,
+  "primaryImageUrl": "/images/products/smartphones/honor-600.png",
+  "storage": "256GB",
+  "colour": "Black"
+}
+
+### Honor 600 Pro
+POST {{baseUrl}}/productcatalog
+Content-Type: application/json
+Authorization: Bearer {{adminAuthToken}}
+
+{
+  "sku": "PHONE-HONOR-600PRO",
+  "productName": "Honor 600 Pro",
+  "description": "Upgraded Honor 600 with faster charging.",
+  "brand": "HONOR",
+  "category": "SMARTPHONES",
+  "price": 9999.00,
+  "stockQuantity": 20,
+  "primaryImageUrl": "/images/products/smartphones/honor-600-pro.png",
+  "storage": "256GB",
+  "colour": "Silver"
+}
+
+### Honor Magic V5
+POST {{baseUrl}}/productcatalog
+Content-Type: application/json
+Authorization: Bearer {{adminAuthToken}}
+
+{
+  "sku": "PHONE-HONOR-MAGICV5",
+  "productName": "Honor Magic V5",
+  "description": "Slim foldable flagship smartphone.",
+  "brand": "HONOR",
+  "category": "SMARTPHONES",
+  "price": 29999.00,
+  "stockQuantity": 9,
+  "primaryImageUrl": "/images/products/smartphones/honor-magic-v5.png",
+  "storage": "512GB",
+  "colour": "Black"
+}
+
+### Honor X9d
+POST {{baseUrl}}/productcatalog
+Content-Type: application/json
+Authorization: Bearer {{adminAuthToken}}
+
+{
+  "sku": "PHONE-HONOR-X9D",
+  "productName": "Honor X9d",
+  "description": "Durable mid-range phone with a large display.",
+  "brand": "HONOR",
+  "category": "SMARTPHONES",
+  "price": 6999.00,
+  "stockQuantity": 26,
+  "primaryImageUrl": "/images/products/smartphones/honor-x9d.png",
+  "storage": "256GB",
+  "colour": "Blue"
+}

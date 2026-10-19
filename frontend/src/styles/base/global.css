@@ -1,0 +1,82 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+:root { font-family: 'DM Sans', system-ui, sans-serif; color: #151b25; background: #f5f5e9; font-synthesis: none;
+  /* ---- Brand palette --------------------------------------------------
+     A four-tone enterprise system:
+       Black      #151b25  deep ink / primary surfaces
+       Cornflower #143344  deep teal, pairs with black in gradients
+       Cream      #f5f5e9  warm paper, the page canvas
+       Orange     #ff9010  the logo accent, used sparingly
+     Legacy token names (navy/orange) are kept so nothing downstream breaks;
+     they now map onto the palette above. */
+  --brand-black:#151b25; --brand-cornflower:#143344; --brand-cream:#f5f5e9;
+  /* Accent orange, sampled from the brand logo. --brand-accent aliases it. */
+  --brand-accent:#ff9010; --brand-accent-light:#ffa733; --brand-accent-dark:#e07a00;
+  --brand-gradient:linear-gradient(135deg, #151b25 0%, #143344 100%);
+  /* Sunflower gold: the resting tint for bento hero media before hover. */
+  --brand-sunflower:#f6b31e;
+  /* Dark-surface ramp (black leaning slightly toward cornflower as it lightens). */
+  --navy-950:#10141c; --navy-900:#151b25; --navy-800:#1d2a38;
+  /* Accent is the logo orange. "dark" variant keeps AA contrast on the cream canvas. */
+  --orange:#ff9010; --orange-dark:#c96a00; --orange-soft:rgba(255,144,16,.10);
+  --ink:#151b25; --muted:#5b6472; --line:#e3e2d3; --line-strong:#d2d0bd;
+  --paper:#f5f5e9; --surface:#efeee1; --surface-sunken:#e7e6d6; --card:#fffdf7;
+  --success:#137a4c; --danger:#b42525; --radius:14px;
+  /* Shared alignment and glass depth tiers. */
+  --content-max:1380px; --page-gutter:clamp(.75rem,2.5vw,1.5rem);
+  --radius-control:9px; --radius-card:14px; --radius-panel:18px; --radius-pill:999px;
+  --glass-blur-soft:saturate(155%) blur(12px); --glass-blur:saturate(180%) blur(20px); --glass-blur-float:saturate(185%) blur(28px);
+  --glass-card:rgba(255,255,255,.56); --glass-panel:rgba(255,255,255,.76); --glass-field:rgba(255,255,255,.88);
+  --glass-border:rgba(255,255,255,.78); --glass-hairline:rgba(18,18,22,.10);
+  --glass-shadow-card:0 8px 24px rgba(19,17,25,.08), inset 0 1px 0 rgba(255,255,255,.8);
+  --glass-shadow-panel:0 16px 42px rgba(19,17,25,.11), inset 0 1px 0 rgba(255,255,255,.88);
+  /* ---- Liquid glass ---------------------------------------------------
+     Frosted, translucent surfaces in the Apple visionOS idiom. Light glass
+     sits on the cream canvas, dark glass on brand surfaces. */
+  --glass-blur:saturate(180%) blur(20px);
+  --glass-light:rgba(255,255,255,.62); --glass-light-strong:rgba(255,255,255,.78);
+  --glass-light-border:rgba(255,255,255,.6);
+  --glass-dark:rgba(21,27,37,.62); --glass-dark-border:rgba(255,255,255,.14);
+  --glass-highlight:inset 0 1px 0 rgba(255,255,255,.5);
+  --glass-shadow:0 10px 32px rgba(16,20,28,.14), inset 0 1px 0 rgba(255,255,255,.45);
+  /* Flatter, tighter shadows for a crisp enterprise feel, warmed to the ink. */
+  --shadow-xs:0 1px 2px rgba(16,20,28,.06);
+  --shadow-sm:0 2px 6px rgba(16,20,28,.07), 0 1px 2px rgba(16,20,28,.05);
+  --shadow-md:0 8px 22px rgba(16,20,28,.10), 0 2px 6px rgba(16,20,28,.06);
+  --shadow-lg:0 20px 48px rgba(16,20,28,.15), 0 4px 12px rgba(16,20,28,.08);
+  --shadow:var(--shadow-md);
+  /* Product imagery shows its true colours at all times (no hover recolour). */
+  --img-idle:none;
+  --img-active:none;
+  /* Bento hero media rests dimmed to the footer's dark tone, then reveals its
+     real colours on hover. */
+  --img-hero-idle:brightness(.4) saturate(.72) contrast(1.02);
+  /* Footer surface, reused by the hero so its resting colour matches exactly. */
+  --footer-surface:linear-gradient(180deg, #151b25 0%, #10141c 100%);
+}
+/* Reusable liquid-glass utilities. */
+.glass { background:var(--glass-light); -webkit-backdrop-filter:var(--glass-blur); backdrop-filter:var(--glass-blur); border:1px solid var(--glass-light-border); box-shadow:var(--glass-shadow); }
+.glass--dark { background:var(--glass-dark); -webkit-backdrop-filter:var(--glass-blur); backdrop-filter:var(--glass-blur); border:1px solid var(--glass-dark-border); box-shadow:var(--glass-highlight); color:#fff; }
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .glass { background:var(--glass-light-strong); }
+  .glass--dark { background:rgba(21,27,37,.94); }
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { margin: 0; min-width: 320px; min-height: 100vh; color: var(--ink); background: radial-gradient(42rem 32rem at 8% 8%, rgba(215,202,255,.38), transparent 68%), radial-gradient(36rem 28rem at 94% 32%, rgba(255,255,255,.72), transparent 70%), linear-gradient(145deg, #f7f6f2 0%, #eeece5 100%); background-attachment: fixed; overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+button, input, select, textarea { font: inherit; }
+button { cursor: pointer; }
+button:disabled { cursor: not-allowed; opacity: .55; }
+a { color: inherit; text-decoration: none; }
+img { display: block; max-width: 100%; height: auto; }
+/* Long identifiers (order numbers, emails, SKUs) must not force horizontal scroll. */
+h1, h2, h3, p, small, td, b, strong { overflow-wrap: break-word; }
+h1, h2, h3, p { margin-top: 0; }
+h1, h2, h3, .brand { font-family: 'Space Grotesk', system-ui, sans-serif; letter-spacing: -.02em; line-height: 1.14; font-weight: 600; }
+p { color: var(--muted); line-height: 1.65; }
+input, select, textarea { width: 100%; padding: .78rem .9rem; color: var(--ink); background: var(--glass-field); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); border: 1px solid var(--glass-hairline); border-radius: var(--radius-control); outline: none; box-shadow: inset 0 1px 0 rgba(255,255,255,.9); transition: border-color var(--motion-fast, 160ms) var(--ease-in-out, ease), box-shadow var(--motion-fast, 160ms) var(--ease-in-out, ease), background-color var(--motion-fast, 160ms) var(--ease-in-out, ease); }
+input[type='checkbox'], input[type='radio'] { width: auto; padding: 0; box-shadow: none; -webkit-backdrop-filter: none; backdrop-filter: none; }
+input:hover:not(:disabled), select:hover:not(:disabled), textarea:hover:not(:disabled) { background: rgba(255,255,255,.96); border-color: rgba(18,18,22,.24); }
+input:focus, select:focus, textarea:focus { background: #fff; border-color: rgba(18,18,22,.5); box-shadow: 0 0 0 3px rgba(255,255,255,.72), 0 0 0 4px rgba(18,18,22,.14); }
+textarea { min-height: 110px; resize: vertical; }
+label { display: grid; gap: .45rem; color: #2b2f38; font-size: .86rem; font-weight: 600; }
+small { color: var(--muted); }

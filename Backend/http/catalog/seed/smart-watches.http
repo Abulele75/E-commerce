@@ -1,0 +1,163 @@
+@baseUrl = http://localhost:8081/api
+
+@adminAuthToken = PASTE_ADMIN_AUTH_TOKEN_HERE
+
+# Requires ../../auth.http administrator login first.
+
+### Huawei Watch Fit 3 GPS 43mm
+POST {{baseUrl}}/productcatalog
+Content-Type: application/json
+Authorization: Bearer {{adminAuthToken}}
+
+{
+  "sku": "WATCH-HUAWEI-FIT3",
+  "productName": "Huawei Watch Fit 3 GPS 43mm",
+  "description": "Slim GPS fitness smart watch with AMOLED display.",
+  "brand": "HUAWEI",
+  "category": "SMART_WATCHES",
+  "price": 1999.00,
+  "stockQuantity": 30,
+  "primaryImageUrl": "/images/products/smart-watches/huawei-watch-fit-3.png",
+  "colour": "Black",
+  "featured": true
+}
+
+### Huawei Watch GT 5 GPS 41mm Black
+POST {{baseUrl}}/productcatalog
+Content-Type: application/json
+Authorization: Bearer {{adminAuthToken}}
+
+{
+  "sku": "WATCH-HUAWEI-GT5-41",
+  "productName": "Huawei Watch GT 5 GPS 41mm Black Fluoroelastomer Strap",
+  "description": "Premium GPS smart watch with long battery life.",
+  "brand": "HUAWEI",
+  "category": "SMART_WATCHES",
+  "price": 3499.00,
+  "stockQuantity": 25,
+  "primaryImageUrl": "/images/products/smart-watches/huawei-watch-gt-5.png",
+  "colour": "Black"
+}
+
+### Huawei Watch Fit 4 GPS Black
+POST {{baseUrl}}/productcatalog
+Content-Type: application/json
+Authorization: Bearer {{adminAuthToken}}
+
+{
+  "sku": "WATCH-HUAWEI-FIT4",
+  "productName": "Huawei Watch Fit 4 GPS Black",
+  "description": "Lightweight GPS fitness watch with health tracking.",
+  "brand": "HUAWEI",
+  "category": "SMART_WATCHES",
+  "price": 2299.00,
+  "stockQuantity": 30,
+  "primaryImageUrl": "/images/products/smart-watches/huawei-watch-fit-4.png",
+  "colour": "Black"
+}
+
+### Apple Watch Ultra 3 49mm
+POST {{baseUrl}}/productcatalog
+Content-Type: application/json
+Authorization: Bearer {{adminAuthToken}}
+
+{
+  "sku": "APL-WU3-49-NAT",
+  "productName": "Apple Watch Ultra 3 49mm",
+  "description": "Rugged Apple smartwatch for sport and adventure.",
+  "brand": "APPLE",
+  "category": "SMART_WATCHES",
+  "price": 18999.00,
+  "stockQuantity": 18,
+  "primaryImageUrl": "/images/products/smart-watches/apple-watch-ultra-3.png",
+  "colour": "Natural Titanium",
+  "storage": "64GB",
+  "processor": "Apple S-series SiP",
+  "featured": true
+}
+
+### Apple Watch SE3
+POST {{baseUrl}}/productcatalog
+Content-Type: application/json
+Authorization: Bearer {{adminAuthToken}}
+
+{
+  "sku": "WATCH-APPLE-SE3",
+  "productName": "Apple Watch SE3",
+  "description": "Affordable Apple Watch with essential features.",
+  "brand": "APPLE",
+  "category": "SMART_WATCHES",
+  "price": 4999.00,
+  "stockQuantity": 25,
+  "primaryImageUrl": "/images/products/smart-watches/apple-watch-se-3.png",
+  "colour": "Midnight"
+}
+
+### Apple Watch 11
+POST {{baseUrl}}/productcatalog
+Content-Type: application/json
+Authorization: Bearer {{adminAuthToken}}
+
+{
+  "sku": "WATCH-APPLE-11",
+  "productName": "Apple Watch 11",
+  "description": "Flagship Apple Watch with advanced health sensors.",
+  "brand": "APPLE",
+  "category": "SMART_WATCHES",
+  "price": 8999.00,
+  "stockQuantity": 18,
+  "primaryImageUrl": "/images/products/smart-watches/apple-watch-11.png",
+  "colour": "Graphite",
+  "featured": true
+}
+
+### Samsung Galaxy Watch8 40mm BT
+POST {{baseUrl}}/productcatalog
+Content-Type: application/json
+Authorization: Bearer {{adminAuthToken}}
+
+{
+  "sku": "WATCH-SAMSUNG-W8-40",
+  "productName": "Samsung Galaxy Watch8 40mm BT",
+  "description": "Bluetooth smart watch with Wear OS.",
+  "brand": "SAMSUNG",
+  "category": "SMART_WATCHES",
+  "price": 5499.00,
+  "stockQuantity": 22,
+  "primaryImageUrl": "/images/products/smart-watches/samsung-watch-8.png",
+  "colour": "Black"
+}
+
+### Samsung Galaxy Watch Ultra 47mm Titanium LTE
+POST {{baseUrl}}/productcatalog
+Content-Type: application/json
+Authorization: Bearer {{adminAuthToken}}
+
+{
+  "sku": "WATCH-SAMSUNG-ULTRA-47",
+  "productName": "Samsung Galaxy Watch Ultra 47mm Titanium LTE",
+  "description": "Rugged titanium LTE smart watch for adventurers.",
+  "brand": "SAMSUNG",
+  "category": "SMART_WATCHES",
+  "price": 12999.00,
+  "stockQuantity": 12,
+  "primaryImageUrl": "/images/products/smart-watches/samsung-watch-ultra.png",
+  "colour": "Titanium Gray"
+}
+
+### Samsung Galaxy Watch4 Classic 42mm Black
+POST {{baseUrl}}/productcatalog
+Content-Type: application/json
+Authorization: Bearer {{adminAuthToken}}
+
+{
+  "sku": "WATCH-SAMSUNG-W4C-42",
+  "productName": "Samsung Galaxy Watch4 Classic 42mm Black",
+  "description": "Classic rotating bezel smart watch.",
+  "brand": "SAMSUNG",
+  "category": "SMART_WATCHES",
+  "price": 2999.00,
+  "stockQuantity": 20,
+  "primaryImageUrl": "/images/products/smart-watches/samsung-watch-4.png",
+  "colour": "Black"
+}

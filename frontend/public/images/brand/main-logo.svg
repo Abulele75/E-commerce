@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="360" viewBox="0 0 1200 360" role="img" aria-labelledby="title desc">
+  <title id="title">Incredible Tech logo</title>
+  <desc id="desc">Black Incredible Tech wordmark and black iT monogram inside a hexagonal badge, with a transparent background.</desc>
+  <g fill="none" stroke="#000000" stroke-linejoin="round">
+    <path d="M170 28 L286 94 L286 226 L170 292 L54 226 L54 94 Z" stroke-width="13"/>
+    <path d="M170 58 L260 110 L260 210 L170 262 L80 210 L80 110 Z" stroke-width="5"/>
+  </g>
+  <g fill="#000000">
+    <path d="M112 113 L232 113 L207 143 L178 143 L178 229 L150 246 L150 143 L88 143 Z"/>
+    <path d="M123 160 L139 151 L139 226 L123 235 Z"/>
+    <text x="340" y="164" font-family="Arial, Helvetica, sans-serif" font-size="88" font-weight="800" letter-spacing="-2">INCREDIBLE</text>
+    <text x="342" y="257" font-family="Arial, Helvetica, sans-serif" font-size="82" font-weight="800" letter-spacing="1">TECH</text>
+  </g>
+</svg>

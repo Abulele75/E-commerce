@@ -1,0 +1,10 @@
+import { useState } from 'react'
+import AdminShell from '../../components/admin-shell/AdminShell.jsx'; import Loader from '../../components/loader/Loader.jsx'; import Notice from '../../components/notice/Notice.jsx'
+import { orderService } from '../../services/orders/orderService.js'; import { useAsync } from '../../hooks/async/useAsync.js'; import { orderStatuses } from '../../constants/catalog/catalogOptions.js'; import { byRecent, dateTime, label, money } from '../../utils/format/formatters.js'
+
+export default function AdminOrders() {
+  const [filter, setFilter] = useState(''); const { data: orders = [], loading, error, reload } = useAsync(() => orderService.all(filter), [filter])
+  const update = async (id, status) => { if (!status) return; await orderService.updateStatus(id, status); reload() }
+  const rows = [...(orders || [])].sort(byRecent('createdAt', 'orderId'))
+  return <AdminShell title="Orders"><div className="toolbar"><select value={filter} onChange={(e) => setFilter(e.target.value)}><option value="">All statuses</option>{orderStatuses.map((s) => <option key={s} value={s}>{label(s)}</option>)}</select><span>Most recent first</span></div><Notice message={error} />{loading ? <Loader /> : <div className="table-wrap"><table><thead><tr><th>Order</th><th>Date</th><th>Total</th><th>Status</th><th>Move to</th></tr></thead><tbody>{rows.map((o) => <tr key={o.orderId}><td><b>{o.orderId}</b><small>{o.orderItems.length} items</small></td><td>{dateTime(o.createdAt)}</td><td>{money(o.financialBreakdown.finalInvoiceTotal)}</td><td><span className={`status status--${o.orderStatus.toLowerCase()}`}>{label(o.orderStatus)}</span></td><td><select defaultValue="" onChange={(e) => update(o.orderId, e.target.value)}><option value="">Select…</option>{orderStatuses.filter((s) => s !== o.orderStatus).map((s) => <option key={s} value={s}>{label(s)}</option>)}</select></td></tr>)}</tbody></table></div>}</AdminShell>
+}

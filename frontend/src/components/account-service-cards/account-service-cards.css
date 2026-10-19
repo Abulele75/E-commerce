@@ -1,0 +1,21 @@
+.account-services { padding-top: 2.5rem; padding-bottom: 3.25rem; background: transparent; }
+.account-services__heading { display: flex; align-items: end; justify-content: space-between; gap: 1rem; margin-bottom: 1.2rem; }
+.account-services__heading > span { color: #626262; font-size: .68rem; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; }
+.account-services__heading h2 { max-width: 640px; margin: 0; color: #090909; font-size: clamp(1.55rem, 3vw, 2.35rem); text-align: right; }
+.account-services__grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; }
+.account-service-card { display: flex; flex-direction: column; min-width: 0; overflow: hidden; background: var(--glass-card); -webkit-backdrop-filter: var(--glass-blur-soft); backdrop-filter: var(--glass-blur-soft); border: 1px solid var(--glass-border); border-radius: var(--radius-card); box-shadow: var(--glass-shadow-card), 0 0 0 1px var(--glass-hairline); transition: transform var(--motion-base) var(--ease-out), border-color var(--motion-fast) var(--ease-in-out), box-shadow var(--motion-base) var(--ease-out); }
+.account-service-card:hover { border-color: rgba(15,15,18,.32); box-shadow: var(--glass-shadow-panel); }
+.account-service-card__image { display: grid; place-items: end center; aspect-ratio: 16 / 10; overflow: hidden; background: rgba(255,255,255,.58); }
+.account-service-card__image img { width: 100%; height: 100%; object-fit: contain; object-position: center bottom; transition: transform var(--motion-slow) var(--ease-out); }
+.account-service-card__body { display: grid; grid-template-columns: 42px minmax(0, 1fr); gap: .8rem; align-items: start; padding: 1rem; background: rgba(255,255,255,.16); border-top: 1px solid rgba(18,18,22,.08); }
+.account-service-card__icon { display: grid; place-items: center; width: 42px; height: 42px; color: #050505; background: rgba(255,255,255,.72); border: 1px solid var(--glass-border); border-radius: 50%; box-shadow: var(--glass-highlight); }
+.account-service-card__icon svg { width: 21px; height: 21px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.account-service-card__copy h3 { margin: 0 0 .2rem; color: #080808; font-size: 1.05rem; }
+.account-service-card__copy p { margin: 0; color: #686868; font-size: .73rem; line-height: 1.45; }
+.account-service-card__action { grid-column: 1 / -1; display: flex; align-items: center; justify-content: space-between; min-height: 42px; margin-top: .2rem; padding: .65rem .8rem; color: #fff; background: #080808; border: 1px solid #080808; border-radius: var(--radius-control); font-size: .74rem; font-weight: 800; transition: background-color var(--motion-fast) var(--ease-in-out), transform var(--motion-fast) var(--ease-out); }
+.account-service-card__action:hover { background: #252525; transform: translateY(-1px); }
+.account-service-card__action span { font-size: 1rem; }
+@media (hover:hover) and (pointer:fine) { .account-service-card:hover { transform: translateY(-2px); } .account-service-card:hover .account-service-card__image img { transform: scale(1.018); } }
+@media (max-width: 960px) { .account-services__grid { grid-template-columns: 1fr; } .account-service-card__image { aspect-ratio: 16 / 7; } }
+@media (max-width: 640px) { .account-services { padding-block: 2rem 2.5rem; } .account-services__heading { align-items: start; flex-direction: column; } .account-services__heading h2 { text-align: left; } .account-service-card__image { aspect-ratio: 16 / 9; } }
+@media (prefers-reduced-motion: reduce) { .account-service-card, .account-service-card__image img, .account-service-card__action { transition: none; } .account-service-card:hover, .account-service-card:hover .account-service-card__image img { transform: none; } }

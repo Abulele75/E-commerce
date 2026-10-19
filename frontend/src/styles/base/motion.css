@@ -1,0 +1,88 @@
+/* Motion and interaction baseline.
+   Keeps CSS transitions inside the same 150-300ms band as the JS motion tokens. */
+
+:root {
+  --motion-fast: 160ms;
+  --motion-base: 240ms;
+  --motion-slow: 340ms;
+  --ease-out: cubic-bezier(.22, .61, .36, 1);
+  --ease-in-out: cubic-bezier(.4, 0, .2, 1);
+}
+
+/* Visible focus for keyboard users on every interactive element. */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+[tabindex]:focus-visible {
+  outline: 2px solid var(--orange);
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+
+/* Pointer affordance. */
+a,
+button,
+[role='button'],
+summary {
+  cursor: pointer;
+}
+
+button:disabled,
+[aria-disabled='true'] {
+  cursor: not-allowed;
+}
+
+/* Underlay shimmer used by skeleton placeholders. */
+@keyframes sheen {
+  from { background-position: -180% 0; }
+  to { background-position: 180% 0; }
+}
+
+.skeleton {
+  border-radius: 8px;
+  background-image: linear-gradient(90deg, #e7e6d6 25%, #f4f3e8 37%, #e7e6d6 63%);
+  background-size: 220% 100%;
+  animation: sheen 1.25s var(--ease-in-out) infinite;
+}
+
+/* Consistent, targeted state transitions across shared interactive elements.
+   Exact properties only (never `transition: all`) so they stay on the fast path. */
+.tabs button {
+  transition: color var(--motion-fast) var(--ease-in-out),
+              background-color var(--motion-base) var(--ease-out);
+}
+.tabs button:active { transform: scale(.98); }
+
+.link-button {
+  transition: color var(--motion-fast) var(--ease-in-out),
+              opacity var(--motion-fast) var(--ease-in-out);
+}
+.link-button:hover { opacity: .72; }
+
+.admin-nav a,
+.rail__all,
+.section__heading a,
+.footer__grid a,
+.auth-card__switch a {
+  transition: color var(--motion-fast) var(--ease-in-out);
+}
+
+/* Selects and the account dropdown ease in rather than snapping. */
+.account-menu > button {
+  transition: opacity var(--motion-fast) var(--ease-in-out);
+}
+
+/* Honour the platform accessibility setting.
+   JS primitives bail out separately via useReducedMotion. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

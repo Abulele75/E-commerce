@@ -1,0 +1,68 @@
+.pay-processing {
+  position: fixed;
+  inset: 0;
+  z-index: 1300;
+  display: grid;
+  place-items: center;
+  padding: 1.25rem;
+  background: rgba(16, 20, 28, .55);
+  -webkit-backdrop-filter: blur(12px) saturate(140%);
+  backdrop-filter: blur(12px) saturate(140%);
+  animation: pp-fade .28s var(--ease-out);
+}
+.pay-processing__card {
+  width: min(360px, 100%);
+  padding: 2.1rem 1.9rem 1.8rem;
+  text-align: center;
+  background: var(--glass-panel);
+  -webkit-backdrop-filter: var(--glass-blur-float);
+  backdrop-filter: var(--glass-blur-float);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-panel);
+  box-shadow: var(--glass-shadow-panel), 0 30px 70px rgba(16, 20, 28, .24);
+  animation: pp-pop .4s var(--ease-out);
+}
+.pay-processing__card h2 { margin: 0 0 .35rem; font-size: 1.25rem; }
+.pay-processing__card p { margin: 0 auto 1.3rem; max-width: 30ch; font-size: .82rem; }
+
+/* Animated orb: two counter-rotating accent arcs around a floating card chip. */
+.pay-processing__orb { position: relative; width: 92px; height: 92px; margin: 0 auto 1.2rem; }
+.pay-processing__ring {
+  position: absolute; inset: 0; border-radius: 50%;
+  background: conic-gradient(from 0deg, transparent 8%, #111 92%, transparent);
+  -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 6px), #000 calc(100% - 5px));
+  mask: radial-gradient(farthest-side, transparent calc(100% - 6px), #000 calc(100% - 5px));
+  animation: pp-spin 1s linear infinite;
+}
+.pay-processing__ring--slow {
+  inset: 11px;
+  background: conic-gradient(from 180deg, transparent 20%, #8f849f 80%, transparent);
+  -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 4px), #000 calc(100% - 3px));
+  mask: radial-gradient(farthest-side, transparent calc(100% - 4px), #000 calc(100% - 3px));
+  animation: pp-spin 1.6s linear infinite reverse;
+}
+.pay-processing__chip {
+  position: absolute; inset: 24px;
+  display: grid; place-items: center;
+  color: #151b25;
+  background: linear-gradient(135deg, #fffdf7, #efeee1);
+  border-radius: 50%;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .8), 0 6px 16px rgba(16, 20, 28, .18);
+  animation: pp-breathe 1.8s var(--ease-in-out) infinite;
+}
+
+.pay-processing__bar { position: relative; height: 4px; width: 100%; margin-bottom: .9rem; background: rgba(21, 27, 37, .1); border-radius: 999px; overflow: hidden; }
+.pay-processing__bar span { position: absolute; top: 0; left: -42%; width: 42%; height: 100%; border-radius: 999px; background: linear-gradient(90deg, var(--brand-accent-light), var(--brand-accent-dark)); animation: pp-slide 1.2s var(--ease-in-out) infinite; }
+.pay-processing__note { display: block; color: var(--muted); font-size: .66rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; }
+
+@keyframes pp-fade { from { opacity: 0; } to { opacity: 1; } }
+@keyframes pp-pop { from { opacity: 0; transform: translateY(12px) scale(.96); } to { opacity: 1; transform: none; } }
+@keyframes pp-spin { to { transform: rotate(360deg); } }
+@keyframes pp-slide { 0% { left: -42%; } 100% { left: 100%; } }
+@keyframes pp-breathe { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.06); } }
+
+@media (prefers-reduced-motion: reduce) {
+  .pay-processing, .pay-processing__card { animation: none; }
+  .pay-processing__ring, .pay-processing__ring--slow, .pay-processing__bar span { animation: none; }
+  .pay-processing__chip { animation: none; }
+}

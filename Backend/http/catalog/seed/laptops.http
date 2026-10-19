@@ -1,0 +1,96 @@
+@baseUrl = http://localhost:8081/api
+
+@adminAuthToken = PASTE_ADMIN_AUTH_TOKEN_HERE
+
+### Lenovo Legion Gaming Laptop
+POST {{baseUrl}}/productcatalog
+Content-Type: application/json
+Authorization: Bearer {{adminAuthToken}}
+
+{
+  "sku": "LAPTOP-LEGION",
+  "productName": "Lenovo Legion Gaming Laptop",
+  "description": "High-performance gaming laptop.",
+  "brand": "LEGION",
+  "category": "LAPTOPS",
+  "price": 24999.00,
+  "stockQuantity": 10,
+  "primaryImageUrl": "/images/products/laptops/legion-front.png",
+  "secondaryImageUrl": "/images/products/laptops/legion-back.png",
+  "processor": "Intel Core i7",
+  "memory": "16GB",
+  "storage": "1TB SSD",
+  "operatingSystem": "Windows 11",
+  "graphicsCard": "NVIDIA GeForce RTX 4060",
+  "warrantyPeriodMonths": 24,
+  "featured": true
+}
+
+### MSI Gaming Laptop
+POST {{baseUrl}}/productcatalog
+Content-Type: application/json
+Authorization: Bearer {{adminAuthToken}}
+
+{
+  "sku": "LAPTOP-MSI",
+  "productName": "MSI Gaming Laptop",
+  "description": "Powerful MSI gaming laptop.",
+  "brand": "MSI",
+  "category": "LAPTOPS",
+  "price": 22999.00,
+  "stockQuantity": 10,
+  "primaryImageUrl": "/images/products/laptops/msi-front.png",
+  "secondaryImageUrl": "/images/products/laptops/msi-back.png",
+  "processor": "Intel Core i7",
+  "memory": "16GB",
+  "storage": "1TB SSD",
+  "operatingSystem": "Windows 11",
+  "graphicsCard": "NVIDIA GeForce RTX 4070",
+  "warrantyPeriodMonths": 24
+}
+
+### HP Victus Gaming Laptop
+POST {{baseUrl}}/productcatalog
+Content-Type: application/json
+Authorization: Bearer {{adminAuthToken}}
+
+{
+  "sku": "LAPTOP-VICTUS",
+  "productName": "HP Victus Gaming Laptop",
+  "description": "Affordable gaming laptop for everyday play.",
+  "brand": "VICTUS",
+  "category": "LAPTOPS",
+  "price": 18999.00,
+  "stockQuantity": 12,
+  "primaryImageUrl": "/images/products/laptops/victus-front.png",
+  "secondaryImageUrl": "/images/products/laptops/victus-side.png",
+  "processor": "AMD Ryzen 7",
+  "memory": "16GB",
+  "storage": "512GB SSD",
+  "operatingSystem": "Windows 11",
+  "graphicsCard": "NVIDIA GeForce RTX 4050",
+  "warrantyPeriodMonths": 12
+}
+
+### ASUS TUF Gaming A16
+POST {{baseUrl}}/productcatalog
+Content-Type: application/json
+Authorization: Bearer {{adminAuthToken}}
+
+{
+  "sku": "LAPTOP-ASUS-A16TUF",
+  "productName": "ASUS TUF Gaming A16",
+  "description": "Rugged TUF gaming laptop built to last.",
+  "brand": "ASUS",
+  "category": "LAPTOPS",
+  "price": 20999.00,
+  "stockQuantity": 11,
+  "primaryImageUrl": "/images/products/laptops/a16-front.png",
+  "secondaryImageUrl": "/images/products/laptops/a16-back.png",
+  "processor": "AMD Ryzen 7",
+  "memory": "16GB",
+  "storage": "1TB SSD",
+  "operatingSystem": "Windows 11",
+  "graphicsCard": "AMD Radeon RX 7600S",
+  "warrantyPeriodMonths": 24
+}

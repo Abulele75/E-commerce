@@ -50,3 +50,67 @@
 
 <img width="1536" height="1024" alt="final uml" src="https://github.com/user-attachments/assets/eda6382a-5bf6-4091-8384-1de4554c8981" />
 
+
+## Quick start
+
+### 1. Generate the JWT secret
+
+Run this once in PowerShell:
+
+```powershell
+$bytes = New-Object byte[] 32; $rng = [Security.Cryptography.RandomNumberGenerator]::Create(); $rng.GetBytes($bytes); [Convert]::ToBase64String($bytes); $rng.Dispose()
+```
+
+Copy the Base64 value printed by the command. Do not commit it to Git.
+
+### 2. Store the secret in IntelliJ IDEA
+
+1. Import `Backend/pom.xml` as the Maven project.
+2. Open **Run → Edit Configurations**.
+3. Select the Spring Boot configuration for `ECommerceApplication`.
+4. Add this environment variable:
+
+```text
+ECOMMERCE_JWT_SECRET=paste-generated-value-here
+PASSWORD_RESET_EXPOSE_TOKEN=true
+```
+
+5. Apply the configuration and run the backend. It starts on `http://localhost:8081`. `PASSWORD_RESET_EXPOSE_TOKEN=true` enables the local-only reset-token handoff; keep it false outside local development.
+
+You can alternatively start it from a terminal at the repository root:
+
+```powershell
+.\Backend\mvnw.cmd spring-boot:run
+```
+
+### 3. Start the React frontend
+
+Run these commands from the repository root:
+
+```powershell
+Set-Location .\Frontend
+npm install
+npm run dev
+```
+
+Open the local URL printed by Vite, normally `http://localhost:5173`.
+
+### 4. Configure and run clean seeding
+
+1. All request and seed files are under `Backend/http/`.
+2. Copy `Backend/http/http-client.private.env.example.json` to `Backend/http/http-client.private.env.json` and enter the customer and administrator credentials.
+3. Run either `Backend/http/auth.http` with IntelliJ's `local` environment selected, or run the login requests in `Backend/http/seeding/User_and_Admin_seeding.http`; both capture `customerAuthToken` and `adminAuthToken`.
+4. Use `Backend/http/seeding/User_and_Admin_seeding.http` to create a customer and register the account that will become the administrator. Promote that account in MySQL using the SQL instructions in the file; public registration intentionally creates customers only.
+5. Run the product files under `Backend/http/catalog/seed/` with the captured administrator token.
+6. Run cart, checkout, payment, delivery, and feedback examples under `Backend/http/seeding/` as needed.
+7. Password recovery examples are in `Backend/http/password-reset.http`; local reset tokens expire after 15 minutes and work once.
+
+Recommended clean order: **backend → customer/admin → login tokens → products → cart → checkout → payment → delivery/feedback**. More detail is available in `docs/SECURITY_SETUP_AND_SEEDING.md`.
+
+## Project structure
+
+- `docs/` — architecture, security, API, product, payment, and frontend guides.
+- `Backend/` — Spring Boot API, Maven wrapper, tests, and the consolidated `http/` request collection.
+- `Frontend/` — React/Vite storefront and administrator interface.
+
+Run backend verification from `Backend/` with `mvnw.cmd clean verify` and build the frontend from `Frontend/` with `npm.cmd run build`.

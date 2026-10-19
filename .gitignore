@@ -1,33 +1,49 @@
-HELP.md
-target/
-.mvn/wrapper/maven-wrapper.jar
-!**/src/main/**/target/
-!**/src/test/**/target/
+# Maven build output (keep mvnw, mvnw.cmd, and .mvn/ trackable)
+**/target/
 
-### STS ###
-.apt_generated
-.classpath
-.factorypath
-.project
-.settings
-.springBeans
-.sts4-cache
+# React / Vite dependencies and output
+/Frontend/node_modules/
+/Frontend/dist/
+/Frontend/.vite/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
 
-### IntelliJ IDEA ###
-.idea
+# Local environment files; keep documented examples
+.env
+**/.env
+!.env.example
+!**/.env.example
+*.env.local
+**/*.env.local
+
+# IntelliJ IDEA generated metadata
+.idea/
 *.iws
 *.iml
 *.ipr
 
-### NetBeans ###
-/nbproject/private/
-/nbbuild/
-/dist/
-/nbdist/
-/.nb-gradle/
-build/
-!**/src/main/**/build/
-!**/src/test/**/build/
-
-### VS Code ###
+# VS Code generated workspace metadata
 .vscode/
+
+# Other generated IDE/build metadata
+.apt_generated/
+.classpath
+.factorypath
+.project
+.settings/
+.springBeans
+.sts4-cache/
+nbproject/private/
+nbbuild/
+nbdist/
+.nb-gradle/
+**/build/
+
+# Local Kiro tooling
+.kiro/
+
+# IntelliJ HTTP Client private values
+http-client.private.env.json

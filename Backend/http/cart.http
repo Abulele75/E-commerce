@@ -1,0 +1,5 @@
+@baseUrl = http://localhost:8081/api
+
+### Get the current customer's active cart
+GET {{baseUrl}}/cart
+Authorization: Bearer {{customerAuthToken}}

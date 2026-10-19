@@ -1,0 +1,59 @@
+/* On-page confirmation (not a popup): a centered liquid-glass card that sits
+   in the normal document flow after payment succeeds. */
+.order-confirm {
+  display: grid;
+  place-items: start center;
+  padding: .5rem 0 1rem;
+  animation: oc-fade .3s var(--ease-out);
+}
+.order-confirm__card {
+  width: min(520px, 100%);
+  padding: 2rem 1.9rem 1.9rem;
+  text-align: center;
+  background: var(--glass-panel);
+  -webkit-backdrop-filter: var(--glass-blur-float);
+  backdrop-filter: var(--glass-blur-float);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-panel);
+  box-shadow: var(--glass-shadow-panel), 0 0 0 1px var(--glass-hairline);
+  animation: oc-pop .42s var(--ease-out);
+}
+.order-confirm__card .eyebrow { color: var(--brand-accent-dark); }
+.order-confirm__card h1 { margin: .35rem 0 .5rem; font-size: clamp(1.4rem, 4vw, 1.9rem); }
+.order-confirm__card > p { margin: 0 auto 1.4rem; max-width: 34ch; font-size: .86rem; }
+
+/* Animated tick. */
+.order-confirm__tick { display: grid; place-items: center; margin: 0 auto 1rem; }
+.order-confirm__tick svg { width: 74px; height: 74px; }
+.oc-circle { fill: rgba(255, 144, 16, .12); stroke: var(--brand-accent); stroke-width: 2; stroke-dasharray: 145; stroke-dashoffset: 145; animation: oc-draw .5s var(--ease-out) forwards; }
+.oc-check { fill: none; stroke: var(--brand-accent-dark); stroke-width: 4; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 40; stroke-dashoffset: 40; animation: oc-draw .34s .44s var(--ease-out) forwards; }
+
+.order-confirm__facts {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: .7rem;
+  margin: 0 0 1.35rem;
+  padding: 1rem;
+  text-align: left;
+  background: rgba(255, 255, 255, .45);
+  border: 1px solid var(--glass-light-border);
+  border-radius: 14px;
+}
+.order-confirm__facts > div { min-width: 0; }
+.order-confirm__facts-wide { grid-column: 1 / -1; }
+.order-confirm__facts dt { color: var(--muted); font-size: .64rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; }
+.order-confirm__facts dd { margin: .2rem 0 0; color: var(--ink); font-size: .85rem; font-weight: 700; overflow-wrap: anywhere; }
+.order-confirm__actions { display: grid; gap: .6rem; }
+
+@keyframes oc-fade { from { opacity: 0; } to { opacity: 1; } }
+@keyframes oc-pop { from { opacity: 0; transform: translateY(14px) scale(.96); } to { opacity: 1; transform: none; } }
+@keyframes oc-draw { to { stroke-dashoffset: 0; } }
+
+@media (max-width: 420px) {
+  .order-confirm__card { padding: 1.5rem 1.15rem 1.4rem; border-radius: 18px; }
+  .order-confirm__facts { grid-template-columns: 1fr; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .order-confirm, .order-confirm__card { animation: none; }
+  .oc-circle, .oc-check { animation: none; stroke-dashoffset: 0; }
+}

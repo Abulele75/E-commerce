@@ -1,0 +1,9 @@
+@baseUrl = http://localhost:8081/api
+
+### List all seeded products (public)
+GET {{baseUrl}}/productcatalog
+
+### Get one seeded product by ID
+# Replace with a PRD-* value returned by a catalog/seed request.
+@productId = PASTE_SEEDED_PRODUCT_ID_HERE
+GET {{baseUrl}}/productcatalog/{{productId}}
